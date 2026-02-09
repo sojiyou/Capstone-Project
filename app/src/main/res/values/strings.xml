@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Aquallera</string>
+
+    <!--Mapbox token -->
+    <string name="mapbox_access_token">pk.eyJ1Ijoic29qaXlvdSIsImEiOiJjbWk4ZXRybmgwYmxkMmlweHNiNHhnM3V2In0.zIlAkkuMeFdQV9FPR6OgkQ</string>
+
+    <!-- footer strings -->
+    <string name="tvAppName">AQUA-LLERA</string>
+    <string name="facebookDesc">Facebook</string>
+    <string name="instagramDesc">Instagram</string>
+    <string name="ContactUs">Contact Us:</string>
+    <string name="footerEmail">aquallera@gmail.com</string>
+    <string name="footerLocation">2600, Baguio City Philippines</string>
+    <string name="footerNumber">0927-7263-218</string>
+    <string name="footerCopyRight">© 2025 Aqua-llera. All rights reserved.</string>
+
+    <!-- login & Signup Page strings -->
+    <string name="loginBtn">Log In</string>
+    <string name="SignupBtn">Sign Up</string>
+    <string name="tagline">"Clean Water, Anytime, Anywhere."</string>
+    <string name="welcomeMsg">Welcome! Log in to continue.</string>
+    <string name="welcomeMsg2">Welcome! Create an account to continue.</string>
+    <string name="or">or</string>
+
+    <string name="appLogoDesc">Aquallera Logo</string>
+    <string name="HomeTabDesc">Home</string>
+    <string name="MapTabDesc">Map</string>
+    <string name="OrdersTabDesc">Orders</string>
+    <string name="ProfileTabDesc">Profile</string>
+
+    <!-- Why make aquallera section -->
+    <string name="whyMakeAquallera">Why make Aquallera?</string>
+    <string name="whyMakeAqualleraDesc">
+        We created Aqua-llera with the mission of
+        helping residents of Baguio City gain easier
+        and more reliable access to clean and safe water.
+    </string>
+    <string name="WhatIsAquallera">What is the Aqua-llera App?</string>
+    <string name="WhatIsAqualleraDesc">
+        Aqua-llera is a mobile and web application designed
+        to help Baguio City residents easily locate nearby
+        water stations and order clean, safe water for delivery.
+        The app aims to solve problems of unreliable water
+        supply and late deliveries by providing a convenient,
+        organized, and accessible platform. It promotes sustainability,
+        sanitation, and community well-being by ensuring that every
+        user has quick and dependable access to clean water
+        whenever they need it.
+    </string>
+
+</resources>

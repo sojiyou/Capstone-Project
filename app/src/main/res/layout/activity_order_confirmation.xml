@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="20dp"
+            android:background="@drawable/rounded_corner_white"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/loginLogo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/aqua_llera_logo"/>
+
+            <TextView
+                android:id="@+id/tvSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order Confirmation"
+                android:textSize="18sp"
+                android:textColor="#666"
+                android:textStyle="italic"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:id="@+id/tvWaterStationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Water Station Name"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/somewhat_blue"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <!-- Order Details Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/button_background"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order Details"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Customer Info -->
+            <TextView
+                android:id="@+id/tvCustomerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name: Customer Name"
+                android:textSize="16sp"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvOrderDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date: November 6, 2025"
+                android:textSize="16sp"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvOrderTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time: 02:30 PM"
+                android:textSize="16sp"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvOrderType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type: Delivery"
+                android:textSize="16sp"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvDeliveryAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address: Your Address"
+                android:textSize="16sp"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone" />
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/another_yellow"
+                android:layout_marginVertical="8dp" />
+
+            <!-- Order Items -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order Items"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Pure Water -->
+            <TextView
+                android:id="@+id/tvPureWaterDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0 gallon Pure Water: ₱0.00"
+                android:textSize="16sp"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
+            <!-- Spring Water -->
+            <TextView
+                android:id="@+id/tvSpringWaterDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0 liter Spring Water: ₱0.00"
+                android:textSize="16sp"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
+            <!-- Mineral Water -->
+            <TextView
+                android:id="@+id/tvMineralWaterDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0 gallon Mineral Water: ₱0.00"
+                android:textSize="16sp"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- Payment Summary Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/button_background"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Summary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Subtotal -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Subtotal:"
+                    android:textSize="16sp"
+                    android:textColor="@color/another_yellow" />
+
+                <TextView
+                    android:id="@+id/tvSubtotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₱0.00"
+                    android:textSize="16sp"
+                    android:textColor="@color/another_yellow" />
+
+            </LinearLayout>
+
+            <!-- Transaction Fee -->
+            <LinearLayout
+                android:id="@+id/layoutTransactionFee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Transaction Fee:"
+                    android:textSize="16sp"
+                    android:textColor="@color/another_yellow" />
+
+                <TextView
+                    android:id="@+id/tvTransactionFee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₱20.00"
+                    android:textSize="16sp"
+                    android:textColor="@color/another_yellow" />
+
+            </LinearLayout>
+
+            <!-- Delivery Fee -->
+            <LinearLayout
+                android:id="@+id/layoutDeliveryFee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Delivery Fee:"
+                    android:textSize="16sp"
+                    android:textColor="@color/another_yellow" />
+
+                <TextView
+                    android:id="@+id/tvDeliveryFee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₱0.00"
+                    android:textSize="16sp"
+                    android:textColor="@color/another_yellow" />
+
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#e0e0e0"
+                android:layout_marginVertical="12dp" />
+
+            <!-- Grand Total -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Total Amount:"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/another_yellow" />
+
+                <TextView
+                    android:id="@+id/tvGrandTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₱0.00"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/another_yellow" />
+
+            </LinearLayout>
+
+            <!-- Payment Method -->
+            <TextView
+                android:id="@+id/tvPaymentMethod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment: Cash on Delivery"
+                android:textSize="16sp"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Reference Number -->
+            <TextView
+                android:id="@+id/tvReferenceNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reference #: 20251204-123456"
+                android:textSize="14sp"
+                android:textColor="@color/another_yellow"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Additional Details -->
+            <TextView
+                android:id="@+id/tvAdditionalDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notes: Additional details here"
+                android:textSize="14sp"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/btnEditOrder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Edit Order"
+                android:background="@drawable/button_background"
+                android:textColor="@color/another_yellow"
+                android:padding="12dp"
+                />
+
+            <Button
+                android:id="@+id/btnConfirmOrder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Confirm Order"
+                android:background="@drawable/button_background"
+                android:textColor="@color/another_yellow"
+                android:padding="12dp" />
+
+        </LinearLayout>
+
+        <!-- Footer Note -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thank you for ordering! Your order will be processed shortly."
+            android:textSize="14sp"
+            android:textColor="#666"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:padding="12dp" />
+
+    </LinearLayout>
+
+</ScrollView>

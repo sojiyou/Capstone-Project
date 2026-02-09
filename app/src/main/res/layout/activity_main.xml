@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+
+    <!--Main Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="10dp">
+
+            <!-- Logo -->
+            <ImageView
+                android:id="@+id/AppLogo"
+                android:layout_width="260dp"
+                android:layout_height="260dp"
+                android:contentDescription="@string/appLogoDesc"
+                android:src="@drawable/aqua_llera_logo"
+                />
+
+            <!-- Login Button -->
+            <Button
+                android:id="@+id/LoginBtn"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/loginBtn"
+                android:background="@drawable/button_background"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <!-- "or" separator -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/or"
+                android:textSize="20sp"
+                android:textStyle="italic"
+                android:textColor="#666666"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Signup Button -->
+            <Button
+                android:id="@+id/SignupBtn"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="@string/SignupBtn"
+                android:background="@drawable/button_background"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginBottom="50dp"/>
+
+            <!-- Tagline -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tagline"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:textColor="#666666"
+                android:textAlignment="center" />
+
+            <!-- The Line -->
+            <View
+                android:layout_width="200dp"
+                android:layout_height="2dp"
+                android:background="@color/somewhat_blue"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+        </ScrollView>
+
+    <!-- Footer -->
+    <include
+        layout="@layout/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

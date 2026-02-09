@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottomNavigation"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/somewhat_blue"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <!-- Map Tab -->
+    <LinearLayout
+        android:id="@+id/navMap"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/tab_border_highlight">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/icons8_map_50"
+            android:contentDescription="@string/MapTabDesc"/>
+
+        <TextView
+            android:id="@+id/tvMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/MapTabDesc"
+            android:textSize="12sp"
+            android:textColor="@color/light_yellow"/>
+    </LinearLayout>
+
+    <!-- Vertical Divider -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:background="@color/light_yellow"
+        android:layout_gravity="center_vertical" />
+
+    <!-- Orders Tab -->
+    <LinearLayout
+        android:id="@+id/navOrder"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/tab_border_highlight">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/icons8_list_50"
+            android:contentDescription="@string/OrdersTabDesc"/>
+
+        <TextView
+            android:id="@+id/tvOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/OrdersTabDesc"
+            android:textSize="12sp"
+            android:textColor="@color/light_yellow"/>
+    </LinearLayout>
+
+    <!-- Vertical Divider -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:background="@color/light_yellow"
+        android:layout_gravity="center_vertical" />
+
+    <!-- Profile Tab -->
+    <LinearLayout
+        android:id="@+id/navProfile"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/tab_border_highlight">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/icons8_user_50"
+            android:contentDescription="@string/ProfileTabDesc"/>
+
+        <TextView
+            android:id="@+id/tvProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ProfileTabDesc"
+            android:textSize="12sp"
+            android:textColor="@color/light_yellow"/>
+    </LinearLayout>
+
+</LinearLayout>

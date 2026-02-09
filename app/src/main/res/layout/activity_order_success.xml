@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- Success Message -->
+        <TextView
+            android:id="@+id/tvHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order Successful!"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/somewhat_blue"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Order Details Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/rounded_corner_white"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:id="@+id/tvStationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Water Station Name"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:id="@+id/tvCustomerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name: Customer"
+                android:textSize="16sp"
+                android:textColor="#666"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvOrderDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date: Nov 6, 2025"
+                android:textSize="16sp"
+                android:textColor="#666"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvOrderTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time: 2:30 PM"
+                android:textSize="16sp"
+                android:textColor="#666"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvOrderType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type: Delivery"
+                android:textSize="16sp"
+                android:textColor="#666"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvReferenceNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reference #: 20251204-123456"
+                android:textSize="16sp"
+                android:textColor="#666"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvTransactionFee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Transaction Fee: ₱20.00"
+                android:textSize="16sp"
+                android:textColor="#666"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvGrandTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total: ₱130.00"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvOrderStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status: Pending"
+                android:textSize="16sp"
+                android:textColor="@color/green"
+                android:layout_marginBottom="8dp" />
+
+        </LinearLayout>
+
+        <!-- Continue Button -->
+        <Button
+            android:id="@+id/btnContinue"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Back To Home"
+            android:textSize="18sp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/another_yellow" />
+
+        <!-- Note -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your order has been received!\nCheck Orders tab for updates."
+            android:textSize="14sp"
+            android:textColor="#666"
+            android:gravity="center"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+</ScrollView>

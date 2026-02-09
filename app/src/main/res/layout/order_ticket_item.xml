@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/order_ticket_background"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <!-- Station Name -->
+    <TextView
+        android:id="@+id/tvStationName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Living Water Refilling Station"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/another_yellow"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Order Status -->
+    <TextView
+        android:id="@+id/tvOrderStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pending"
+        android:textSize="12sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="2dp"
+        android:background="@drawable/status_pending_background"
+        android:textColor="@color/white"
+        android:layout_marginBottom="8dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/another_yellow"
+        android:layout_marginVertical="4dp"/>
+
+    <!-- Date -->
+    <TextView
+        android:id="@+id/tvOrderDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date November 6, 2025"
+        android:textSize="14sp"
+        android:textColor="@color/another_yellow"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Ticket Number -->
+    <TextView
+        android:id="@+id/tvTicketNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ref #: 20251204-123456"
+        android:textSize="14sp"
+        android:textColor="@color/another_yellow"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Price -->
+    <TextView
+        android:id="@+id/tvOrderPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="₱20.00"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/another_yellow"
+        android:textAlignment="textEnd" />
+
+</LinearLayout>

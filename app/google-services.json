@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "432017337394",
+    "project_id": "aquallera",
+    "storage_bucket": "aquallera.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432017337394:android:fd978921c83f3364aa602b",
+        "android_client_info": {
+          "package_name": "com.example.aquallera"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE8estN4CjQ8f5uZDR7vXS9XeiDok99xs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

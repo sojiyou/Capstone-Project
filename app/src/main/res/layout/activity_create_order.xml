@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/loginLogo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/aqua_llera_logo"/>
+
+        <TextView
+            android:id="@+id/tvWaterStationName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Water Station Name Here"
+            android:textSize="18sp"
+            android:textColor="@color/somewhat_blue"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Order Type Selection -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Order Type:"
+                android:textSize="16sp"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginBottom="8dp"/>
+
+            <RadioGroup
+                android:id="@+id/rgOrderType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbDelivery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Delivery"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:padding="10dp"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/rbPickup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pickup"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:padding="10dp" />
+            </RadioGroup>
+
+            <!-- Order Details Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Order Details:"
+                android:textSize="20sp"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/somewhat_blue"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Date Selection -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Selected Date:"
+                android:textColor="@color/somewhat_blue"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvSelectedDate"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="No date selected"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/gray_input_field_bg"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical"/>
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/gray_input_field_bg"
+                android:visibility="gone"/>
+
+            <!-- Time Selection -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Time:"
+                android:textSize="14sp"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginBottom="4dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:paddingRight="12dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/gray_input_field_bg">
+
+                <TextView
+                    android:id="@+id/tvSelectedTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="No time selected"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:padding="12dp"
+                    android:gravity="center_vertical"/>
+
+                <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_access_time_24dp"
+                    android:background="@null"
+                    android:onClick="showTimePicker"
+                    android:padding="8dp"/>
+            </LinearLayout>
+
+            <!-- Water Quantity Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Water Quantities and Prices:"
+                android:textSize="20sp"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/somewhat_blue"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Pure Water (Gallon) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pure Water (Gallon)"
+                        android:textSize="14sp"
+                        android:textColor="@color/somewhat_blue"/>
+
+                    <TextView
+                        android:id="@+id/tvPureWaterPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Price: ₱0.00/gallon"
+                        android:textSize="12sp"
+                        android:textColor="#666666"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/btnDecreaseGallonPure"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="-"
+                        android:textSize="18sp"
+                        android:background="@drawable/button_background"/>
+
+                    <EditText
+                        android:id="@+id/etGallonPure"
+                        android:layout_width="60dp"
+                        android:layout_height="48dp"
+                        android:layout_marginHorizontal="8dp"
+                        android:background="@drawable/gray_input_field_bg"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:maxLines="1"/>
+
+                    <Button
+                        android:id="@+id/btnIncreaseGallonPure"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="+"
+                        android:textSize="18sp"
+                        android:background="@drawable/button_background"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Spring Water (Liter) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Spring Water (Liter)"
+                        android:textSize="14sp"
+                        android:textColor="@color/somewhat_blue"/>
+
+                    <TextView
+                        android:id="@+id/tvSpringWaterPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Price: ₱0.00/liter"
+                        android:textSize="12sp"
+                        android:textColor="#666666"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/btnDecreaseLiterSpring"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="-"
+                        android:textSize="18sp"
+                        android:background="@drawable/button_background"/>
+
+                    <EditText
+                        android:id="@+id/etLiterSpring"
+                        android:layout_width="60dp"
+                        android:layout_height="48dp"
+                        android:layout_marginHorizontal="8dp"
+                        android:background="@drawable/gray_input_field_bg"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:maxLines="1"/>
+
+                    <Button
+                        android:id="@+id/btnIncreaseLiterSpring"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="+"
+                        android:textSize="18sp"
+                        android:background="@drawable/button_background"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Mineral Water (Gallon) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mineral Water (Gallon)"
+                        android:textSize="14sp"
+                        android:textColor="@color/somewhat_blue"/>
+
+                    <TextView
+                        android:id="@+id/tvMineralWaterPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Price: ₱0.00/gallon"
+                        android:textSize="12sp"
+                        android:textColor="#666666"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/btnDecreaseGallonMineral"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="-"
+                        android:textSize="18sp"
+                        android:background="@drawable/button_background"/>
+
+                    <EditText
+                        android:id="@+id/etGallonMineral"
+                        android:layout_width="60dp"
+                        android:layout_height="48dp"
+                        android:layout_marginHorizontal="8dp"
+                        android:background="@drawable/gray_input_field_bg"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:maxLines="1"/>
+
+                    <Button
+                        android:id="@+id/btnIncreaseGallonMineral"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="+"
+                        android:textSize="18sp"
+                        android:background="@drawable/button_background"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Delivery Fee Display (Only for Delivery) -->
+            <TextView
+                android:id="@+id/tvDeliveryFee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delivery Fee: ₱0.00"
+                android:textSize="14sp"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"/>
+
+
+            <!-- Location Details Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location Details:"
+                android:textSize="20sp"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/somewhat_blue"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location:"
+                android:textSize="14sp"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginBottom="8dp"/>
+
+            <Button
+                android:id="@+id/getLocation"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/button_background"
+                android:text="Get your Location"
+                android:textColor="@color/another_yellow"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Location Display -->
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/gray_input_field_bg"
+                android:padding="12dp"
+                android:text="Location not selected"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Additional Details:"
+                android:textSize="14sp"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/additionalDetailsInput"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/gray_input_field_bg"
+                android:hint="e.g. street next to the waiting shed, 3rd left turn, then straight down."
+                android:inputType="textMultiLine"
+                android:padding="12dp"
+                android:textSize="14sp"
+                android:gravity="start"/>
+
+            <!-- Preview Button -->
+            <Button
+                android:id="@+id/proceedButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/button_background"
+                android:text="Preview Order and Calculate Total"
+                android:textColor="@color/another_yellow"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation -->
+    <include
+        layout="@layout/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
