@@ -130,6 +130,58 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
+                <!-- NEW: Delivery Hours Section (dynamically shown/hidden) -->
+                <LinearLayout
+                    android:id="@+id/deliveryHoursSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginTop="12dp">
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#E0E0E0"
+                        android:layout_marginBottom="12dp"/>
+
+                    <!-- Delivery Hours Label -->
+                    <TextView
+                        android:id="@+id/tvDeliveryHoursLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Delivery Times:"
+                        android:textColor="#333333"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <!-- Container for delivery times (populated dynamically) -->
+                    <LinearLayout
+                        android:id="@+id/deliveryTimesContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp">
+
+                        <!-- Delivery times will be added here programmatically -->
+                        <!-- Example items (will be replaced by actual data): -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="8:00 AM"
+                            android:textColor="#666666"
+                            android:textSize="14sp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -244,7 +296,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_background"
-                android:text="return"
+                android:text="Return"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />

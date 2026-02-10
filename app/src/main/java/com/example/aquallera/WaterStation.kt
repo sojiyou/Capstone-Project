@@ -29,12 +29,13 @@ data class WaterStation(
     @PropertyName("pricing_delivery_fee") val pricing_delivery_fee: Double? = null,
 
     @PropertyName("deliveryRadius") val deliveryRadius: Int = 5,
+    @PropertyName("deliveryHours") val deliveryHours: List<String>? = null, // NEW: List of delivery times
     @PropertyName("businessHours") val businessHours: Map<String, String> = emptyMap(),
     @PropertyName("serviceTypes") val serviceTypes: List<String> = emptyList(),
     @PropertyName("createdAt") val createdAt: String = "",
     @PropertyName("updatedAt") val updatedAt: String = "",
 
-) : Serializable {
+    ) : Serializable {
 
     // Main distance calculation function
     fun calculateDistanceTo(userLat: Double, userLon: Double): DistanceResult {
@@ -108,6 +109,40 @@ data class WaterStation(
 
     // Get delivery radius
     fun getDeliveryRadiusInt(): Int = deliveryRadius
+
+    // NEW: Helper function to check if station has delivery service
+    fun hasDeliveryService(): Boolean {
+        return serviceTypes.contains("delivery")
+    }
+
+    // NEW: Helper function to get formatted delivery hours
+    fun getFormattedDeliveryHours(): List<String> {
+        return deliveryHours?.map { time ->
+            formatTime(time)
+        } ?: emptyList()
+    }
+
+    // NEW: Helper function to format time from 24hr to 12hr
+    private fun formatTime(time: String): String {
+        return try {
+            val parts = time.split(":")
+            if (parts.size == 2) {
+                val hour = parts[0].toInt()
+                val minute = parts[1]
+
+                when {
+                    hour == 0 -> "12:$minute AM"
+                    hour < 12 -> "$hour:$minute AM"
+                    hour == 12 -> "12:$minute PM"
+                    else -> "${hour - 12}:$minute PM"
+                }
+            } else {
+                time
+            }
+        } catch (e: Exception) {
+            time
+        }
+    }
 
     // Format distance for display
     private fun formatDistance(meters: Double): String {

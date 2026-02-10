@@ -3,7 +3,9 @@ package com.example.aquallera
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +22,11 @@ class StoreDetailsActivity : AppCompatActivity() {
     private lateinit var btnOrder: Button
     private lateinit var btnReturn: Button
     private lateinit var pricesCard: CardView
+
+    // NEW: Delivery hours views
+    private lateinit var deliveryHoursSection: LinearLayout
+    private lateinit var tvDeliveryHoursLabel: TextView
+    private lateinit var deliveryTimesContainer: LinearLayout
 
     private var currentStation: WaterStation? = null
 
@@ -56,6 +63,11 @@ class StoreDetailsActivity : AppCompatActivity() {
         btnOrder = findViewById(R.id.btnOrder)
         btnReturn = findViewById(R.id.btnReturn)
         pricesCard = findViewById(R.id.pricesCard)
+
+        // NEW: Initialize delivery hours views
+        deliveryHoursSection = findViewById(R.id.deliveryHoursSection)
+        tvDeliveryHoursLabel = findViewById(R.id.tvDeliveryHoursLabel)
+        deliveryTimesContainer = findViewById(R.id.deliveryTimesContainer)
     }
 
     private fun displayStationDetails(station: WaterStation) {
@@ -83,6 +95,9 @@ class StoreDetailsActivity : AppCompatActivity() {
         }
         tvHours.text = hoursText
 
+        // NEW: Display delivery hours
+        displayDeliveryHours(station)
+
         // Set services
         val radius = station.getDeliveryRadiusInt()
         val servicesText = if (radius > 0) {
@@ -94,6 +109,61 @@ class StoreDetailsActivity : AppCompatActivity() {
 
         // Display prices
         displayPrices(station)
+    }
+
+    // NEW: Function to display delivery hours
+    private fun displayDeliveryHours(station: WaterStation) {
+        // Check if station has delivery service and delivery hours
+        val hasDelivery = station.serviceTypes.contains("delivery")
+        val deliveryHours = station.deliveryHours
+
+        if (hasDelivery && deliveryHours != null && deliveryHours.isNotEmpty()) {
+            // Show the delivery hours section
+            deliveryHoursSection.visibility = View.VISIBLE
+
+            // Clear any existing views in the container
+            deliveryTimesContainer.removeAllViews()
+
+            // Add each delivery time as a TextView
+            deliveryHours.forEach { time ->
+                val timeTextView = TextView(this).apply {
+                    text = formatTime(time)
+                    textSize = 14f
+                    setTextColor(resources.getColor(android.R.color.darker_gray, null))
+                    setPadding(0, 4, 0, 4)
+                }
+                deliveryTimesContainer.addView(timeTextView)
+            }
+
+            Log.d("DELIVERY_HOURS", "Displaying ${deliveryHours.size} delivery times")
+        } else {
+            // Hide the delivery hours section if no delivery service or no hours set
+            deliveryHoursSection.visibility = View.GONE
+            Log.d("DELIVERY_HOURS", "No delivery hours to display")
+        }
+    }
+
+    // NEW: Helper function to format time (convert 24hr to 12hr format)
+    private fun formatTime(time: String): String {
+        return try {
+            val parts = time.split(":")
+            if (parts.size == 2) {
+                val hour = parts[0].toInt()
+                val minute = parts[1]
+
+                when {
+                    hour == 0 -> "12:$minute AM"
+                    hour < 12 -> "$hour:$minute AM"
+                    hour == 12 -> "12:$minute PM"
+                    else -> "${hour - 12}:$minute PM"
+                }
+            } else {
+                time // Return original if format is unexpected
+            }
+        } catch (e: Exception) {
+            Log.e("DELIVERY_HOURS", "Error formatting time: $time", e)
+            time // Return original on error
+        }
     }
 
     private fun displayPrices(station: WaterStation) {
@@ -119,11 +189,11 @@ class StoreDetailsActivity : AppCompatActivity() {
         // Check if there are any prices to display
         if (priceList.isNotEmpty()) {
             // Show prices card
-            pricesCard.visibility = android.view.View.VISIBLE
+            pricesCard.visibility = View.VISIBLE
             tvPrices.text = priceList.joinToString("\n")
         } else {
             // Hide prices card if no prices are set
-            pricesCard.visibility = android.view.View.GONE
+            pricesCard.visibility = View.GONE
         }
     }
 

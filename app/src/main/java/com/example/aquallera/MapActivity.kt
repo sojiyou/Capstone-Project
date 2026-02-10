@@ -33,6 +33,8 @@ import com.mapbox.maps.plugin.annotation.annotations
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
 import com.mapbox.maps.plugin.locationcomponent.location
+// ✅ NEW: Import for camera change listener
+import com.mapbox.maps.plugin.delegates.listeners.OnCameraChangeListener
 
 class MapActivity : AppCompatActivity() {
 
@@ -51,10 +53,21 @@ class MapActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var userLocation: Location? = null
 
+    // ✅ NEW: Store marker data for zoom-responsive scaling
+    private val markerDataList = mutableListOf<MarkerData>()
+    private var currentZoom: Double = 12.0
+    private var pointAnnotationManager: com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager? = null
+
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
         private const val TAG = "MapActivity"
     }
+
+    // ✅ NEW: Data class to track markers and their stations
+    data class MarkerData(
+        val station: WaterStation,
+        val annotationId: String  // MapBox annotation IDs are String type
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,9 +109,8 @@ class MapActivity : AppCompatActivity() {
         recyclerViewStations.apply {
             layoutManager = LinearLayoutManager(this@MapActivity)
             adapter = stationAdapter
-            // ✅ ENABLE scrolling - RecyclerView scrolls independently
             isNestedScrollingEnabled = true
-            setHasFixedSize(false) // Allow dynamic height
+            setHasFixedSize(false)
         }
     }
 
@@ -123,7 +135,9 @@ class MapActivity : AppCompatActivity() {
     }
 
     private fun setupMap() {
-        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS) { style ->
+        // ✅ ISSUE 2 FIX: Changed from Style.MAPBOX_STREETS to Style.SATELLITE_STREETS
+        // This gives you satellite imagery with street labels overlay
+        mapView.getMapboxMap().loadStyleUri(Style.SATELLITE_STREETS) { style ->
             Log.d(TAG, "Map style loaded successfully")
 
             addCustomIconsToStyle(style)
@@ -135,6 +149,9 @@ class MapActivity : AppCompatActivity() {
                 .build()
             mapView.getMapboxMap().setCamera(cameraOptions)
 
+            // ✅ ISSUE 3 FIX: Add camera change listener for zoom-responsive markers
+            setupZoomListener()
+
             if (!hasLocationPermission()) {
                 requestLocationPermission()
             } else {
@@ -143,6 +160,54 @@ class MapActivity : AppCompatActivity() {
 
             fetchWaterStations()
         }
+    }
+
+    // ✅ ISSUE 3 FIX: Setup zoom listener to update marker sizes
+    private fun setupZoomListener() {
+        mapView.getMapboxMap().addOnCameraChangeListener(OnCameraChangeListener {
+            val newZoom = mapView.getMapboxMap().cameraState.zoom
+
+            // Only update if zoom changed significantly (avoid too many updates)
+            if (kotlin.math.abs(newZoom - currentZoom) > 0.5) {
+                currentZoom = newZoom
+                updateMarkerSizes(currentZoom)
+            }
+        })
+    }
+
+    // ✅ ISSUE 3 FIX: Update marker sizes based on zoom level
+    private fun updateMarkerSizes(zoom: Double) {
+        val manager = pointAnnotationManager ?: return
+
+        // Calculate sizes based on zoom
+        // Zoom levels typically range from 0 (world view) to 22 (building level)
+        val iconSize = when {
+            zoom < 10 -> 0.5  // Very zoomed out - small icons
+            zoom < 12 -> 0.8  // Medium zoom
+            zoom < 14 -> 1.0  // Default size
+            zoom < 16 -> 1.2  // Zoomed in
+            else -> 1.5       // Very zoomed in
+        }
+
+        val textSize = when {
+            zoom < 11 -> 0.0   // Hidden when zoomed out
+            zoom < 13 -> 8.0   // Small text
+            zoom < 15 -> 10.0  // Medium text
+            else -> 12.0       // Large text
+        }
+
+        // Update all markers - convert Long IDs to String for comparison
+        markerDataList.forEach { markerData ->
+            manager.annotations.forEach { annotation ->
+                if (annotation.id.toString() == markerData.annotationId) {
+                    annotation.iconSize = iconSize
+                    annotation.textSize = textSize
+                    manager.update(annotation)
+                }
+            }
+        }
+
+        Log.d(TAG, "Updated marker sizes - Zoom: $zoom, IconSize: $iconSize, TextSize: $textSize")
     }
 
     private fun addCustomIconsToStyle(style: Style) {
@@ -186,26 +251,55 @@ class MapActivity : AppCompatActivity() {
 
             val stationLocation = Point.fromLngLat(lng, lat)
 
-            val annotationApi = mapView.annotations
-            val pointAnnotationManager = annotationApi.createPointAnnotationManager()
+            // ✅ Create or reuse the annotation manager
+            if (pointAnnotationManager == null) {
+                val annotationApi = mapView.annotations
+                pointAnnotationManager = annotationApi.createPointAnnotationManager()
+            }
+            val manager = pointAnnotationManager!!
+
+            // ✅ ISSUE 3 FIX: Calculate initial sizes based on current zoom
+            val initialIconSize = when {
+                currentZoom < 10 -> 0.5
+                currentZoom < 12 -> 0.8
+                currentZoom < 14 -> 1.0
+                currentZoom < 16 -> 1.2
+                else -> 1.5
+            }
+
+            val initialTextSize = when {
+                currentZoom < 11 -> 0.0
+                currentZoom < 13 -> 8.0
+                currentZoom < 15 -> 10.0
+                else -> 12.0
+            }
 
             val pointAnnotationOptions = PointAnnotationOptions()
                 .withPoint(stationLocation)
                 .withIconImage("water_station_icon")
-                .withIconSize(1.0)
+                .withIconSize(initialIconSize)  // ✅ Use calculated size
                 .withTextField(station.stationName)
-                .withTextSize(10.0)
+                .withTextSize(initialTextSize)  // ✅ Use calculated size
                 .withTextColor("#000000")
                 .withTextHaloColor("#FFFFFF")
                 .withTextHaloWidth(1.0)
 
-            pointAnnotationManager.create(pointAnnotationOptions)
+            val annotation = manager.create(pointAnnotationOptions)
 
-            pointAnnotationManager.addClickListener { annotation ->
-                selectedStation = station
-                showSelectedStationInfo(station)
-                zoomToStation(station)
-                true
+            // ✅ NEW: Store marker data for later updates - convert Long ID to String
+            markerDataList.add(MarkerData(station, annotation.id.toString()))
+
+            // ✅ ISSUE 1 FIX: Proper click listener implementation
+            manager.addClickListener { clickedAnnotation ->
+                // Find the station associated with this annotation - convert Long ID to String
+                val markerData = markerDataList.find { it.annotationId == clickedAnnotation.id.toString() }
+                markerData?.let {
+                    selectedStation = it.station
+                    showSelectedStationInfo(it.station)
+                    zoomToStation(it.station)
+                    Log.d(TAG, "Marker clicked: ${it.station.stationName}")
+                }
+                true // Return true to consume the click event
             }
 
             Log.d(TAG, "Marker added for: ${station.stationName}")
@@ -243,6 +337,13 @@ class MapActivity : AppCompatActivity() {
                     Log.d(TAG, "DataSnapshot children count: ${dataSnapshot.childrenCount}")
 
                     stationsList.clear()
+                    markerDataList.clear() // ✅ Clear marker data when reloading
+
+                    // ✅ Clear existing markers
+                    pointAnnotationManager?.let { manager ->
+                        manager.deleteAll()
+                    }
+                    pointAnnotationManager = null
 
                     if (dataSnapshot.exists()) {
                         for (stationSnapshot in dataSnapshot.children) {

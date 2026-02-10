@@ -13,7 +13,6 @@ import java.util.*
 
 class OrderConfirmationActivity : AppCompatActivity() {
 
-    private var referenceCounter: Int = 0
     private var transactionFee: Double = 10.0
 
     private lateinit var tvWaterStationName: TextView
@@ -59,22 +58,21 @@ class OrderConfirmationActivity : AppCompatActivity() {
 
     // Firebase
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: FirebaseDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_confirmation)
 
         try {
-            // Initialize Firebase Auth
             auth = FirebaseAuth.getInstance()
+            database = FirebaseDatabase.getInstance(
+                "https://aquallera-default-rtdb.asia-southeast1.firebasedatabase.app"
+            )
 
-            auth.currentUser?.uid?.let {
-                userId -> debugUserData(userId)
-            }
+            auth.currentUser?.uid?.let { debugUserData(it) }
 
-            // Get data from intent
             getIntentData()
-
             initializeViews()
             setupClickListeners()
             displayOrderDetails()
@@ -85,12 +83,9 @@ class OrderConfirmationActivity : AppCompatActivity() {
     }
 
     private fun getIntentData() {
-
         try {
             currentStation = intent.getSerializableExtra("WATER_STATION") as? WaterStation
-
             orderTotal = intent.getSerializableExtra("ORDER_TOTAL") as CreateOrderActivity.OrderTotal
-
             orderDate = intent.getStringExtra("ORDER_DATE") ?: ""
             orderTime = intent.getStringExtra("ORDER_TIME") ?: ""
             orderType = intent.getStringExtra("ORDER_TYPE") ?: ""
@@ -98,49 +93,46 @@ class OrderConfirmationActivity : AppCompatActivity() {
             userLatitude = intent.getDoubleExtra("USER_LATITUDE", 0.0)
             userLongitude = intent.getDoubleExtra("USER_LONGITUDE", 0.0)
             additionalDetails = intent.getStringExtra("ADDITIONAL_DETAILS") ?: ""
-
         } catch (e: Exception) {
             Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun initializeViews() {
+        tvWaterStationName = findViewById(R.id.tvWaterStationName)
+        tvCustomerName = findViewById(R.id.tvCustomerName)
+        tvOrderDate = findViewById(R.id.tvOrderDate)
+        tvOrderTime = findViewById(R.id.tvOrderTime)
+        tvOrderType = findViewById(R.id.tvOrderType)
+        tvDeliveryAddress = findViewById(R.id.tvDeliveryAddress)
 
-        try {
-            tvWaterStationName = findViewById(R.id.tvWaterStationName)
-            tvCustomerName = findViewById(R.id.tvCustomerName)
-            tvOrderDate = findViewById(R.id.tvOrderDate)
-            tvOrderTime = findViewById(R.id.tvOrderTime)
-            tvOrderType = findViewById(R.id.tvOrderType)
-            tvDeliveryAddress = findViewById(R.id.tvDeliveryAddress)
+        tvPureWaterDetails = findViewById(R.id.tvPureWaterDetails)
+        tvSpringWaterDetails = findViewById(R.id.tvSpringWaterDetails)
+        tvMineralWaterDetails = findViewById(R.id.tvMineralWaterDetails)
 
-            tvPureWaterDetails = findViewById(R.id.tvPureWaterDetails)
-            tvSpringWaterDetails = findViewById(R.id.tvSpringWaterDetails)
-            tvMineralWaterDetails = findViewById(R.id.tvMineralWaterDetails)
+        tvSubtotal = findViewById(R.id.tvSubtotal)
+        tvDeliveryFee = findViewById(R.id.tvDeliveryFee)
+        tvTransactionFee = findViewById(R.id.tvTransactionFee)
+        tvGrandTotal = findViewById(R.id.tvGrandTotal)
+        tvReferenceNumber = findViewById(R.id.tvReferenceNumber)
+        tvAdditionalDetails = findViewById(R.id.tvAdditionalDetails)
+        tvPaymentMethod = findViewById(R.id.tvPaymentMethod)
 
-            tvSubtotal = findViewById(R.id.tvSubtotal)
-            tvDeliveryFee = findViewById(R.id.tvDeliveryFee)
-            tvTransactionFee = findViewById(R.id.tvTransactionFee)
-            tvGrandTotal = findViewById(R.id.tvGrandTotal)
-            tvReferenceNumber = findViewById(R.id.tvReferenceNumber)
-            tvAdditionalDetails = findViewById(R.id.tvAdditionalDetails)
-            tvPaymentMethod = findViewById(R.id.tvPaymentMethod)
+        layoutDeliveryFee = findViewById(R.id.layoutDeliveryFee)
+        layoutTransactionFee = findViewById(R.id.layoutTransactionFee)
 
-            // Layout wrappers
-            layoutDeliveryFee = findViewById(R.id.layoutDeliveryFee)
-            layoutTransactionFee = findViewById(R.id.layoutTransactionFee)
-
-            btnConfirmOrder = findViewById(R.id.btnConfirmOrder)
-            btnEditOrder = findViewById(R.id.btnEditOrder)
-
-        } catch (e: Exception) {
-            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
-        }
+        btnConfirmOrder = findViewById(R.id.btnConfirmOrder)
+        btnEditOrder = findViewById(R.id.btnEditOrder)
     }
 
     private fun setupClickListeners() {
         btnConfirmOrder.setOnClickListener {
-            saveOrderToFirebase()
+            // Generate reference number before saving order
+            generateReferenceNumber { ref ->
+                referenceNumber = ref
+                tvReferenceNumber.text = "Reference #: $referenceNumber"
+                saveOrderToFirebase()
+            }
         }
 
         btnEditOrder.setOnClickListener {
@@ -151,20 +143,15 @@ class OrderConfirmationActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n", "DefaultLocale")
     private fun displayOrderDetails() {
         try {
-            // Station name
             tvWaterStationName.text = currentStation?.stationName ?: "Water Station"
-
-            // Customer name (from Firebase Auth)
             val currentUser = auth.currentUser
             val customerName = currentUser?.displayName ?: "Customer"
             tvCustomerName.text = "Name: $customerName"
 
-            // Date and time
             tvOrderDate.text = "Date: $orderDate"
             tvOrderTime.text = "Time: $orderTime"
             tvOrderType.text = "Type: $orderType"
 
-            // Delivery address (only show if delivery)
             if (orderType == "Delivery" && userAddress.isNotEmpty()) {
                 tvDeliveryAddress.text = "Address: $userAddress"
                 tvDeliveryAddress.visibility = android.view.View.VISIBLE
@@ -172,17 +159,12 @@ class OrderConfirmationActivity : AppCompatActivity() {
                 tvDeliveryAddress.visibility = android.view.View.GONE
             }
 
-            // Display order items with calculations
             displayOrderItems()
 
-            // Display summary
             tvSubtotal.text = "₱${String.format("%.2f", orderTotal.waterSubtotal)}"
-
-            // Always show transaction fee
             tvTransactionFee.text = "₱${String.format("%.2f", transactionFee)}"
             layoutTransactionFee.visibility = android.view.View.VISIBLE
 
-            // Show delivery fee only for delivery orders
             if (orderTotal.deliveryFee > 0 && orderType == "Delivery") {
                 tvDeliveryFee.text = "₱${String.format("%.2f", orderTotal.deliveryFee)}"
                 layoutDeliveryFee.visibility = android.view.View.VISIBLE
@@ -190,17 +172,14 @@ class OrderConfirmationActivity : AppCompatActivity() {
                 layoutDeliveryFee.visibility = android.view.View.GONE
             }
 
-            // Calculate grand total: subtotal + delivery fee + transaction fee
             val grandTotal = orderTotal.waterSubtotal +
                     (if (orderType == "Delivery") orderTotal.deliveryFee else 0.0) +
                     transactionFee
             tvGrandTotal.text = "₱${String.format("%.2f", grandTotal)}"
 
-            // Generate reference number
-            referenceNumber = generateReferenceNumber()
-            tvReferenceNumber.text = "Reference #: $referenceNumber"
+            // Reference number placeholder until Firebase returns
+            tvReferenceNumber.text = "Generating..."
 
-            // Additional details
             if (additionalDetails.isNotEmpty()) {
                 tvAdditionalDetails.text = "Notes: $additionalDetails"
                 tvAdditionalDetails.visibility = android.view.View.VISIBLE
@@ -208,7 +187,6 @@ class OrderConfirmationActivity : AppCompatActivity() {
                 tvAdditionalDetails.visibility = android.view.View.GONE
             }
 
-            // Payment method
             tvPaymentMethod.text = "Payment: Cash on Delivery"
 
         } catch (e: Exception) {
@@ -218,96 +196,84 @@ class OrderConfirmationActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n", "DefaultLocale")
     private fun displayOrderItems() {
-        // Pure Water
         if (orderTotal.pureWaterQty > 0) {
-            tvPureWaterDetails.text = "${orderTotal.pureWaterQty} gallon(s) Pure Water: ₱${String.format("%.2f", orderTotal.pureWaterTotal)}"
+            tvPureWaterDetails.text =
+                "${orderTotal.pureWaterQty} gallon(s) Pure Water: ₱${String.format("%.2f", orderTotal.pureWaterTotal)}"
             tvPureWaterDetails.visibility = android.view.View.VISIBLE
-        } else {
-            tvPureWaterDetails.visibility = android.view.View.GONE
-        }
+        } else tvPureWaterDetails.visibility = android.view.View.GONE
 
-        // Spring Water
         if (orderTotal.springWaterQty > 0) {
-            tvSpringWaterDetails.text = "${orderTotal.springWaterQty} liter(s) Spring Water: ₱${String.format("%.2f", orderTotal.springWaterTotal)}"
+            tvSpringWaterDetails.text =
+                "${orderTotal.springWaterQty} liter(s) Spring Water: ₱${String.format("%.2f", orderTotal.springWaterTotal)}"
             tvSpringWaterDetails.visibility = android.view.View.VISIBLE
-        } else {
-            tvSpringWaterDetails.visibility = android.view.View.GONE
-        }
+        } else tvSpringWaterDetails.visibility = android.view.View.GONE
 
-        // Mineral Water
         if (orderTotal.mineralWaterQty > 0) {
-            tvMineralWaterDetails.text = "${orderTotal.mineralWaterQty} gallon(s) Mineral Water: ₱${String.format("%.2f", orderTotal.mineralWaterTotal)}"
+            tvMineralWaterDetails.text =
+                "${orderTotal.mineralWaterQty} gallon(s) Mineral Water: ₱${String.format("%.2f", orderTotal.mineralWaterTotal)}"
             tvMineralWaterDetails.visibility = android.view.View.VISIBLE
-        } else {
-            tvMineralWaterDetails.visibility = android.view.View.GONE
-        }
+        } else tvMineralWaterDetails.visibility = android.view.View.GONE
     }
 
-    private fun generateReferenceNumber(): String {
-        val date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
+    private fun generateReferenceNumber(callback: (String) -> Unit) {
+        val counterRef = database.reference.child("orderCounter").child("current")
 
-        synchronized(this) {
-            referenceCounter++
-        }
+        counterRef.runTransaction(object : Transaction.Handler {
+            override fun doTransaction(currentData: MutableData): Transaction.Result {
+                var currentCount = currentData.getValue(Int::class.java) ?: 0
+                currentCount++
+                currentData.value = currentCount
+                return Transaction.success(currentData)
+            }
 
-        // Format counter to at least 3 digits (e.g., 001, 012, 123)
-        val counterString = referenceCounter.toString().padStart(3, '0')
-
-        return "$date-$counterString"
+            override fun onComplete(
+                error: DatabaseError?,
+                committed: Boolean,
+                currentData: DataSnapshot?
+            ) {
+                if (error != null) {
+                    Log.e("OrderConfirmation", "Failed to generate reference: ${error.message}")
+                    callback("000")
+                } else {
+                    val count = currentData?.getValue(Int::class.java) ?: 0
+                    val date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
+                    val counterString = count.toString().padStart(3, '0')
+                    callback("$date-$counterString")
+                }
+            }
+        })
     }
 
     private fun getCustomerPhoneFromDatabase(userId: String, callback: (String) -> Unit) {
-        try {
-            val database = FirebaseDatabase.getInstance("https://aquallera-default-rtdb.asia-southeast1.firebasedatabase.app")
-            val userRef = database.reference.child("users").child(userId)
+        val userRef = database.reference.child("users").child(userId)
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val phone = snapshot.child("phone").getValue(String::class.java) ?: ""
+                callback(phone)
+            }
 
-            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        // Try different possible field names
-                        val phone = when {
-                            snapshot.hasChild("phone") -> snapshot.child("phone").getValue(String::class.java)
-                            snapshot.hasChild("phoneNumber") -> snapshot.child("phoneNumber").getValue(String::class.java)
-                            snapshot.hasChild("contactNumber") -> snapshot.child("contactNumber").getValue(String::class.java)
-                            snapshot.hasChild("number") -> snapshot.child("number").getValue(String::class.java)
-                            else -> null
-                        } ?: ""
-
-                        Log.d("OrderConfirmation", "Fetched phone: $phone")
-                        callback(phone)
-                    } else {
-                        Log.d("OrderConfirmation", "User profile not found")
-                        callback("")
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e("OrderConfirmation", "Failed to fetch phone: ${error.message}")
-                    callback("")
-                }
-            })
-        } catch (e: Exception) {
-            Log.e("OrderConfirmation", "Error fetching phone: ${e.message}")
-            callback("")
-        }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("OrderConfirmation", "Failed to fetch phone: ${error.message}")
+                callback("")
+            }
+        })
     }
 
     private fun createOrderObject(customerId: String, orderId: String, customerPhone: String): Order {
         val currentUser = auth.currentUser
         val customerName = currentUser?.displayName ?: "Customer"
 
-        // Calculate grand total correctly
         val grandTotal = orderTotal.waterSubtotal +
                 (if (orderType == "Delivery") orderTotal.deliveryFee else 0.0) +
                 transactionFee
 
         return Order(
             orderId = orderId,
-            stationId = currentStation?.id ?: "",  // ✅ Use station's ID, not customer's ID
+            stationId = currentStation?.id ?: "",
             stationName = currentStation?.stationName ?: "",
             customerId = customerId,
             customerName = customerName,
-            customerPhone = customerPhone,  // Use the fetched phone
+            customerPhone = customerPhone,
             orderType = orderType,
             date = orderDate,
             time = orderTime,
@@ -336,28 +302,6 @@ class OrderConfirmationActivity : AppCompatActivity() {
         )
     }
 
-    private fun debugUserData(userId: String) {
-        val database = FirebaseDatabase.getInstance("https://aquallera-default-rtdb.asia-southeast1.firebasedatabase.app")
-        val userRef = database.reference.child("users").child(userId)
-
-        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d("UserDebug", "User snapshot exists: ${snapshot.exists()}")
-                if (snapshot.exists()) {
-                    Log.d("UserDebug", "User data: ${snapshot.value}")
-                    // Log all child keys
-                    for (child in snapshot.children) {
-                        Log.d("UserDebug", "Field: ${child.key} = ${child.value}")
-                    }
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("UserDebug", "Error: ${error.message}")
-            }
-        })
-    }
-
     @SuppressLint("SetTextI18n")
     private fun saveOrderToFirebase() {
         val currentUser = auth.currentUser
@@ -369,43 +313,26 @@ class OrderConfirmationActivity : AppCompatActivity() {
         btnConfirmOrder.isEnabled = false
         btnConfirmOrder.text = "Processing..."
 
-        try {
-            // Fetch user phone from database first
-            getCustomerPhoneFromDatabase(currentUser.uid) { customerPhone ->
-                try {
-                    // Generate order ID
-                    val database = FirebaseDatabase.getInstance("https://aquallera-default-rtdb.asia-southeast1.firebasedatabase.app")
-                    val orderId = database.reference.child("orders").push().key
-                        ?: System.currentTimeMillis().toString()
+        getCustomerPhoneFromDatabase(currentUser.uid) { customerPhone ->
+            try {
+                val orderId = database.reference.child("orders").push().key
+                    ?: System.currentTimeMillis().toString()
 
-                    // Create order with phone number
-                    val order = createOrderObject(currentUser.uid, orderId, customerPhone)
+                val order = createOrderObject(currentUser.uid, orderId, customerPhone)
 
-                    val orderRef = database.reference.child("orders").child(orderId)
-
-                    // Save to Firebase
-                    orderRef.setValue(order)
-                        .addOnSuccessListener {
-                            // Navigate to success activity
-                            navigateToOrderSuccess(order)
-                        }
-                        .addOnFailureListener { e ->
-                            Toast.makeText(this, "Failed to save order: ${e.message}", Toast.LENGTH_SHORT).show()
-                            btnConfirmOrder.isEnabled = true
-                            btnConfirmOrder.text = "Confirm Order"
-                        }
-
-                } catch (e: Exception) {
-                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
-                    btnConfirmOrder.isEnabled = true
-                    btnConfirmOrder.text = "Confirm Order"
-                }
+                database.reference.child("orders").child(orderId)
+                    .setValue(order)
+                    .addOnSuccessListener { navigateToOrderSuccess(order) }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed to save order: ${e.message}", Toast.LENGTH_SHORT).show()
+                        btnConfirmOrder.isEnabled = true
+                        btnConfirmOrder.text = "Confirm Order"
+                    }
+            } catch (e: Exception) {
+                Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                btnConfirmOrder.isEnabled = true
+                btnConfirmOrder.text = "Confirm Order"
             }
-
-        } catch (e: Exception) {
-            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
-            btnConfirmOrder.isEnabled = true
-            btnConfirmOrder.text = "Confirm Order"
         }
     }
 
@@ -423,7 +350,6 @@ class OrderConfirmationActivity : AppCompatActivity() {
             intent.putExtra("TRANSACTION_FEE", order.transactionFee)
             intent.putExtra("ORDER_STATUS", order.status)
 
-            // Pass water details
             intent.putExtra("PURE_WATER_QTY", order.pureWaterQty)
             intent.putExtra("SPRING_WATER_QTY", order.springWaterQty)
             intent.putExtra("MINERAL_WATER_QTY", order.mineralWaterQty)
@@ -438,9 +364,27 @@ class OrderConfirmationActivity : AppCompatActivity() {
 
             startActivity(intent)
             finish()
-
         } catch (e: Exception) {
             Toast.makeText(this, "Navigation error: ${e.message}", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun debugUserData(userId: String) {
+        val userRef = database.reference.child("users").child(userId)
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Log.d("UserDebug", "User snapshot exists: ${snapshot.exists()}")
+                if (snapshot.exists()) {
+                    Log.d("UserDebug", "User data: ${snapshot.value}")
+                    for (child in snapshot.children) {
+                        Log.d("UserDebug", "Field: ${child.key} = ${child.value}")
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("UserDebug", "Error: ${error.message}")
+            }
+        })
     }
 }
