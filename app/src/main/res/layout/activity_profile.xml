@@ -33,14 +33,14 @@
             android:layout_height="wrap_content"
             android:text="User Profile"
             android:textSize="14sp"
-            android:textColor="@color/somewhat_blue"
+            android:textColor="@color/midnight_blue"
             android:textStyle="bold|italic"
             android:layout_marginBottom="3dp"/>
 
         <View
             android:layout_width="90dp"
             android:layout_height="2dp"
-            android:background="@color/somewhat_blue"
+            android:background="@color/midnight_blue"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
 
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/order_ticket_background"
+        android:background="@drawable/button_background2"
         android:padding="20dp"
         android:layout_margin="10dp"
         android:layout_marginBottom="30dp"
@@ -81,7 +81,7 @@
                     android:text="Name:"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/another_yellow"
+                    android:textColor="@color/mist_gray"
                     android:layout_marginBottom="5dp"/>
 
                 <TextView
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:text="Juan A. Tamad"
                     android:textSize="16dp"
-                    android:textColor="@color/another_yellow"
+                    android:textColor="@color/mist_gray"
                     android:paddingStart="8dp"/>
 
             </LinearLayout>
@@ -107,7 +107,7 @@
                     android:text="Email:"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/another_yellow"
+                    android:textColor="@color/mist_gray"
                     android:layout_marginBottom="5dp"/>
 
                 <TextView
@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:text="juantamad@gmail.com"
                     android:textSize="16dp"
-                    android:textColor="@color/another_yellow"
+                    android:textColor="@color/mist_gray"
                     android:paddingStart="8dp"/>
 
             </LinearLayout>
@@ -134,7 +134,7 @@
                     android:text="Number:"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/another_yellow"
+                    android:textColor="@color/mist_gray"
                     android:layout_marginBottom="5dp"/>
 
                 <TextView
@@ -143,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:text="09277263218"
                     android:textSize="16dp"
-                    android:textColor="@color/another_yellow"
+                    android:textColor="@color/mist_gray"
                     android:paddingStart="8dp"/>
 
             </LinearLayout>
@@ -155,8 +155,8 @@
                 android:layout_height="30dp"
                 android:text="Edit Profile"
                 android:textSize="16sp"
-                android:textColor="@color/somewhat_blue"
-                android:background="@drawable/button_background2"
+                android:textColor="@color/midnight_blue"
+                android:background="@drawable/button_background"
                 android:layout_marginBottom="15dp" />
 
             <!-- Log Out Button -->
@@ -166,8 +166,8 @@
                 android:layout_height="30dp"
                 android:text="Log Out"
                 android:textSize="16sp"
-                android:textColor="@color/somewhat_blue"
-                android:background="@drawable/button_background2"
+                android:textColor="@color/midnight_blue"
+                android:background="@drawable/button_background"
                 android:layout_marginBottom="15dp" />
 
         </LinearLayout>
@@ -188,7 +188,7 @@
             android:text="Maps"
             android:textSize="16sp"
             android:textColor="@android:color/white"
-            android:background="@drawable/button_background"
+            android:background="@drawable/button_background2"
             android:layout_marginBottom="15dp" />
 
         <View
@@ -203,7 +203,7 @@
             android:text="See Orders"
             android:textSize="16sp"
             android:textColor="@android:color/white"
-            android:background="@drawable/button_background"
+            android:background="@drawable/button_background2"
             android:layout_marginBottom="20dp" />
 
     </LinearLayout>

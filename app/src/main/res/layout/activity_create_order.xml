@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Water Station Name Here"
             android:textSize="18sp"
-            android:textColor="@color/somewhat_blue"
+            android:textColor="@color/mist_gray"
             android:textStyle="bold"/>
     </LinearLayout>
 
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:text="Choose Order Type:"
                 android:textSize="16sp"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp"/>
 
             <RadioGroup
@@ -84,14 +84,14 @@
                 android:layout_height="wrap_content"
                 android:text="Order Details:"
                 android:textSize="20sp"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp"
                 android:textStyle="bold"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/somewhat_blue"
+                android:background="@color/midnight_blue"
                 android:layout_marginBottom="12dp"/>
 
             <!-- Date Selection -->
@@ -99,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Selected Date:"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp" />
 
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:text="Select Time:"
                 android:textSize="14sp"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="4dp"/>
 
             <LinearLayout
@@ -167,14 +167,14 @@
                 android:layout_height="wrap_content"
                 android:text="Water Quantities and Prices:"
                 android:textSize="20sp"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp"
                 android:textStyle="bold"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/somewhat_blue"
+                android:background="@color/midnight_blue"
                 android:layout_marginBottom="12dp"/>
 
             <!-- Pure Water (Gallon) -->
@@ -196,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:text="Pure Water (Gallon)"
                         android:textSize="14sp"
-                        android:textColor="@color/somewhat_blue"/>
+                        android:textColor="@color/midnight_blue"/>
 
                     <TextView
                         android:id="@+id/tvPureWaterPrice"
@@ -218,8 +218,9 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:text="-"
+                        android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background"/>
+                        android:background="@drawable/button_background2"/>
 
                     <EditText
                         android:id="@+id/etGallonPure"
@@ -238,8 +239,9 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:text="+"
+                        android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background"/>
+                        android:background="@drawable/button_background2"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -262,7 +264,7 @@
                         android:layout_height="wrap_content"
                         android:text="Spring Water (Liter)"
                         android:textSize="14sp"
-                        android:textColor="@color/somewhat_blue"/>
+                        android:textColor="@color/midnight_blue"/>
 
                     <TextView
                         android:id="@+id/tvSpringWaterPrice"
@@ -284,8 +286,9 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:text="-"
+                        android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background"/>
+                        android:background="@drawable/button_background2"/>
 
                     <EditText
                         android:id="@+id/etLiterSpring"
@@ -304,8 +307,9 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:text="+"
+                        android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background"/>
+                        android:background="@drawable/button_background2"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -328,7 +332,7 @@
                         android:layout_height="wrap_content"
                         android:text="Mineral Water (Gallon)"
                         android:textSize="14sp"
-                        android:textColor="@color/somewhat_blue"/>
+                        android:textColor="@color/midnight_blue"/>
 
                     <TextView
                         android:id="@+id/tvMineralWaterPrice"
@@ -350,8 +354,9 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:text="-"
+                        android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background"/>
+                        android:background="@drawable/button_background2"/>
 
                     <EditText
                         android:id="@+id/etGallonMineral"
@@ -370,8 +375,9 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:text="+"
+                        android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background"/>
+                        android:background="@drawable/button_background2"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -382,7 +388,7 @@
                 android:layout_height="wrap_content"
                 android:text="Delivery Fee: ₱0.00"
                 android:textSize="14sp"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/mist_gray"
                 android:layout_marginBottom="16dp"
                 android:visibility="gone"/>
 
@@ -392,7 +398,7 @@
                 android:layout_height="wrap_content"
                 android:text="Location Details:"
                 android:textSize="20sp"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:textStyle="bold"/>
@@ -400,7 +406,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/somewhat_blue"
+                android:background="@color/mist_gray"
                 android:layout_marginBottom="12dp"/>
 
             <!-- Auto Location Section - Made smaller -->
@@ -409,7 +415,7 @@
                 android:layout_height="wrap_content"
                 android:text="Auto-detect Location:"
                 android:textSize="14sp"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp"/>
 
             <!-- Optional: Toggle between coordinates and manual address -->
@@ -434,9 +440,9 @@
                     android:id="@+id/getLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:background="@drawable/small_button_background"
+                    android:background="@drawable/button_background2"
                     android:text="Get Location"
-                    android:textColor="@color/another_yellow"
+                    android:textColor="@color/mist_gray"
                     android:textSize="10sp"
                     android:paddingHorizontal="12dp"
                     android:layout_marginEnd="8dp"/>
@@ -463,7 +469,7 @@
                 android:layout_height="wrap_content"
                 android:text="Enter Full Address Manually:"
                 android:textSize="14sp"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp"/>
 
             <EditText
@@ -498,7 +504,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Contact Number:"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp" />
 
@@ -521,7 +527,7 @@
                 android:layout_height="wrap_content"
                 android:text="Additional Delivery Instructions:"
                 android:textSize="14sp"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp"/>
 
             <EditText
@@ -541,9 +547,9 @@
                 android:id="@+id/proceedButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@drawable/button_background"
+                android:background="@drawable/button_background2"
                 android:text="Preview Order and Calculate Total"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/mist_gray"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 

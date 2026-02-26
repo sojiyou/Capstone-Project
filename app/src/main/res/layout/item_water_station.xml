@@ -29,7 +29,7 @@
                 android:text="Station Name"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue" />
+                android:textColor="@color/midnight_blue" />
 
             <TextView
                 android:id="@+id/tvStationStatus"
@@ -114,13 +114,13 @@
                 android:text="₱0.00  "
                 android:textSize="11sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue" />
+                android:textColor="@color/midnight_blue" />
 
             <!-- Vertical Divider -->
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/light_yellow"
+                android:background="@color/midnight_blue"
                 android:layout_gravity="center_vertical" />
 
             <TextView
@@ -138,13 +138,13 @@
                 android:text="₱0.00  "
                 android:textSize="11sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue" />
+                android:textColor="@color/midnight_blue" />
 
             <!-- Vertical Divider -->
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/light_yellow"
+                android:background="@color/midnight_blue"
                 android:layout_gravity="center_vertical" />
 
             <TextView
@@ -162,7 +162,7 @@
                 android:text="₱0.00"
                 android:textSize="11sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue" />
+                android:textColor="@color/midnight_blue" />
         </LinearLayout>
 
         <!-- Action Buttons -->
@@ -180,7 +180,7 @@
                 android:text="View on Map"
                 android:textSize="10sp"
                 android:background="@drawable/button_background2"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/mist_gray"
                 android:padding="5dp"
                 android:layout_marginEnd="8dp" />
 
@@ -190,7 +190,7 @@
                 android:layout_height="90px"
                 android:text="Order Now"
                 android:textSize="10sp"
-                android:background="@drawable/button_background"
+                android:background="@drawable/button_background2"
                 android:textColor="@color/white"
                 android:padding="5dp" />
         </LinearLayout>

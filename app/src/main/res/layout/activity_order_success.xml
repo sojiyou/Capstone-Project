@@ -19,7 +19,7 @@
             android:text="Order Successful!"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="@color/somewhat_blue"
+            android:textColor="@color/midnight_blue"
             android:gravity="center"
             android:layout_marginBottom="32dp" />
 
@@ -39,7 +39,7 @@
                 android:text="Water Station Name"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="12dp" />
 
             <TextView
@@ -103,7 +103,7 @@
                 android:text="Total: ₱130.00"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp" />
 
             <TextView
@@ -124,8 +124,8 @@
             android:layout_height="56dp"
             android:text="Back To Home"
             android:textSize="18sp"
-            android:background="@drawable/button_background"
-            android:textColor="@color/another_yellow"
+            android:background="@drawable/button_background2"
+            android:textColor="@color/mist_gray"
             android:layout_marginBottom="12dp" />
 
         <!-- Cancel Order Button — only visible when status is Pending -->

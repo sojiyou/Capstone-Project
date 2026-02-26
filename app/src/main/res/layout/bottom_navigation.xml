@@ -3,7 +3,7 @@
     android:id="@+id/bottomNavigation"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/somewhat_blue"
+    android:background="@color/midnight_blue"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:paddingTop="10dp"

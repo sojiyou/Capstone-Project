@@ -111,9 +111,9 @@
                         android:id="@+id/LoginButton"
                         android:layout_width="120dp"
                         android:layout_height="48dp"
-                        android:background="@drawable/button_background"
+                        android:background="@drawable/button_background2"
                         android:text="@string/loginBtn"
-                        android:textColor="@color/white"
+                        android:textColor="@color/mist_gray"
                         android:textSize="15sp" />
 
                 </LinearLayout>

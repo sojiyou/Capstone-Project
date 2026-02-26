@@ -44,7 +44,7 @@
                 android:text="Water Station Name"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/midnight_blue"
                 android:gravity="center" />
 
         </LinearLayout>
@@ -64,7 +64,7 @@
                 android:text="Order Details"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="16dp" />
 
             <!-- Customer Info -->
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:text="Name: Customer Name"
                 android:textSize="16sp"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp" />
 
             <TextView
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:text="Date: November 6, 2025"
                 android:textSize="16sp"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp" />
 
             <TextView
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="Time: 02:30 PM"
                 android:textSize="16sp"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp" />
 
             <TextView
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:text="Type: Delivery"
                 android:textSize="16sp"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp" />
 
             <TextView
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:text="Address: Your Address"
                 android:textSize="16sp"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="16dp"
                 android:visibility="gone" />
 
@@ -118,7 +118,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/another_yellow"
+                android:background="@color/midnight_blue"
                 android:layout_marginVertical="8dp" />
 
             <!-- Order Items -->
@@ -128,7 +128,7 @@
                 android:text="Order Items"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="12dp" />
 
             <!-- Pure Water -->
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:text="0 gallon Pure Water: ₱0.00"
                 android:textSize="16sp"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp"
                 android:visibility="gone" />
 
@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:text="0 liter Spring Water: ₱0.00"
                 android:textSize="16sp"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp"
                 android:visibility="gone" />
 
@@ -160,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:text="0 gallon Mineral Water: ₱0.00"
                 android:textSize="16sp"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp"
                 android:visibility="gone" />
 
@@ -181,7 +181,7 @@
                 android:text="Payment Summary"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="16dp" />
 
             <!-- Subtotal -->
@@ -197,7 +197,7 @@
                     android:layout_weight="1"
                     android:text="Subtotal:"
                     android:textSize="16sp"
-                    android:textColor="@color/another_yellow" />
+                    android:textColor="@color/midnight_blue" />
 
                 <TextView
                     android:id="@+id/tvSubtotal"
@@ -205,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:text="₱0.00"
                     android:textSize="16sp"
-                    android:textColor="@color/another_yellow" />
+                    android:textColor="@color/midnight_blue" />
 
             </LinearLayout>
 
@@ -223,7 +223,7 @@
                     android:layout_weight="1"
                     android:text="Transaction Fee:"
                     android:textSize="16sp"
-                    android:textColor="@color/another_yellow" />
+                    android:textColor="@color/midnight_blue" />
 
                 <TextView
                     android:id="@+id/tvTransactionFee"
@@ -231,7 +231,7 @@
                     android:layout_height="wrap_content"
                     android:text="₱20.00"
                     android:textSize="16sp"
-                    android:textColor="@color/another_yellow" />
+                    android:textColor="@color/midnight_blue" />
 
             </LinearLayout>
 
@@ -250,7 +250,7 @@
                     android:layout_weight="1"
                     android:text="Delivery Fee:"
                     android:textSize="16sp"
-                    android:textColor="@color/another_yellow" />
+                    android:textColor="@color/midnight_blue" />
 
                 <TextView
                     android:id="@+id/tvDeliveryFee"
@@ -258,7 +258,7 @@
                     android:layout_height="wrap_content"
                     android:text="₱0.00"
                     android:textSize="16sp"
-                    android:textColor="@color/another_yellow" />
+                    android:textColor="@color/midnight_blue" />
 
             </LinearLayout>
 
@@ -283,7 +283,7 @@
                     android:text="Total Amount:"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/another_yellow" />
+                    android:textColor="@color/midnight_blue" />
 
                 <TextView
                     android:id="@+id/tvGrandTotal"
@@ -292,7 +292,7 @@
                     android:text="₱0.00"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/another_yellow" />
+                    android:textColor="@color/midnight_blue" />
 
             </LinearLayout>
 
@@ -303,7 +303,7 @@
                 android:layout_height="wrap_content"
                 android:text="Payment: Cash on Delivery"
                 android:textSize="16sp"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp" />
 
             <!-- Reference Number -->
@@ -313,7 +313,7 @@
                 android:layout_height="wrap_content"
                 android:text="Reference #: 20251204-123456"
                 android:textSize="14sp"
-                android:textColor="@color/another_yellow"
+                android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp" />
 
             <!-- Additional Details -->
@@ -323,7 +323,7 @@
                 android:layout_height="wrap_content"
                 android:text="Notes: Additional details here"
                 android:textSize="14sp"
-                android:textColor="@color/somewhat_blue"
+                android:textColor="@color/mist_gray"
                 android:layout_marginBottom="8dp"
                 android:visibility="gone" />
 
@@ -343,8 +343,8 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:text="Edit Order"
-                android:background="@drawable/button_background"
-                android:textColor="@color/another_yellow"
+                android:background="@drawable/button_background2"
+                android:textColor="@color/mist_gray"
                 android:padding="12dp"
                 />
 
@@ -355,8 +355,8 @@
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:text="Confirm Order"
-                android:background="@drawable/button_background"
-                android:textColor="@color/another_yellow"
+                android:background="@drawable/button_background2"
+                android:textColor="@color/mist_gray"
                 android:padding="12dp" />
 
         </LinearLayout>

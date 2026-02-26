@@ -5,13 +5,13 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:layout_margin="10dp"
-    android:background="@drawable/order_ticket_background">
+    android:background="@drawable/button_background2">
 
     <!-- Header -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="📋 How to Order Water"
+        android:text="How to Order Water"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/white"
@@ -31,7 +31,7 @@
             android:text="1"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/midnight_blue"
             android:background="@drawable/step_circle"
             android:gravity="center" />
 
@@ -48,7 +48,7 @@
                 android:text="Select a Water Station"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/another_yellow" />
+                android:textColor="@color/mist_gray" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
             android:text="2"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/midnight_blue"
             android:background="@drawable/step_circle"
             android:gravity="center" />
 
@@ -90,7 +90,7 @@
                 android:text="Click 'Order Now'"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/another_yellow" />
+                android:textColor="@color/mist_gray" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -115,7 +115,7 @@
             android:text="3"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/midnight_blue"
             android:background="@drawable/step_circle"
             android:gravity="center" />
 
@@ -132,7 +132,7 @@
                 android:text="Choose Water Type and Quantity"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/another_yellow" />
+                android:textColor="@color/mist_gray" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -157,7 +157,7 @@
             android:text="4"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/midnight_blue"
             android:background="@drawable/step_circle"
             android:gravity="center" />
 
@@ -174,7 +174,7 @@
                 android:text="Select Pickup or Delivery"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/another_yellow" />
+                android:textColor="@color/mist_gray" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -199,7 +199,7 @@
             android:text="5"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/midnight_blue"
             android:background="@drawable/step_circle"
             android:gravity="center" />
 
@@ -216,7 +216,7 @@
                 android:text="Confirm and Track Order"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/another_yellow" />
+                android:textColor="@color/mist_gray" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -236,8 +236,8 @@
         android:text="Got It!"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:background="@drawable/button_background2"
-        android:textColor="@color/somewhat_blue"
+        android:background="@drawable/button_background"
+        android:textColor="@color/midnight_blue"
         android:padding="12dp" />
 
 </LinearLayout>

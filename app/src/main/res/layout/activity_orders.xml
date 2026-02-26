@@ -34,12 +34,12 @@
             android:text="Orders"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="#3E5171" />
+            android:textColor="@color/midnight_blue" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/somewhat_blue"
+            android:background="@color/mist_gray"
             android:layout_marginTop="5dp" />
     </LinearLayout>
 

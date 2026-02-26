@@ -55,6 +55,7 @@
                     android:layout_marginBottom="12dp"
                     android:background="@drawable/gray_input_field_bg"
                     android:hint="Full Name"
+                    android:textColor="@color/midnight_blue"
                     android:inputType="text"
                     android:padding="12dp"
                     android:textSize="16sp" />
@@ -67,6 +68,7 @@
                     android:layout_marginBottom="12dp"
                     android:background="@drawable/gray_input_field_bg"
                     android:hint="Email"
+                    android:textColor="@color/midnight_blue"
                     android:inputType="textEmailAddress"
                     android:padding="12dp"
                     android:textSize="16sp" />
@@ -79,6 +81,7 @@
                     android:layout_marginBottom="12dp"
                     android:background="@drawable/gray_input_field_bg"
                     android:hint="Number"
+                    android:textColor="@color/midnight_blue"
                     android:inputType="number"
                     android:padding="12dp"
                     android:textSize="16sp" />
@@ -91,6 +94,7 @@
                     android:layout_marginBottom="12dp"
                     android:background="@drawable/gray_input_field_bg"
                     android:hint="Password"
+                    android:textColor="@color/midnight_blue"
                     android:inputType="textPassword"
                     android:padding="12dp"
                     android:textSize="16sp" />
@@ -102,6 +106,7 @@
                     android:layout_height="50dp"
                     android:layout_marginBottom="12dp"
                     android:background="@drawable/gray_input_field_bg"
+                    android:textColor="@color/midnight_blue"
                     android:hint="Confirm Password"
                     android:inputType="textPassword"
                     android:padding="12dp"
@@ -145,9 +150,9 @@
                         android:id="@+id/SignUpBtn"
                         android:layout_width="120dp"
                         android:layout_height="48dp"
-                        android:background="@drawable/button_background"
+                        android:background="@drawable/button_background2"
                         android:text="@string/SignupBtn"
-                        android:textColor="@color/white"
+                        android:textColor="@color/mist_gray"
                         android:textSize="15sp" />
 
                 </LinearLayout>

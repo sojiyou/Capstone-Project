@@ -18,7 +18,7 @@
         android:text="Living Water Refilling Station"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@color/another_yellow"
+        android:textColor="@color/midnight_blue"
         android:layout_marginBottom="4dp" />
 
     <!-- Order Status -->
@@ -37,7 +37,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/another_yellow"
+        android:background="@color/midnight_blue"
         android:layout_marginVertical="4dp"/>
 
     <!-- Date -->
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:text="Date November 6, 2025"
         android:textSize="14sp"
-        android:textColor="@color/another_yellow"
+        android:textColor="@color/midnight_blue"
         android:layout_marginBottom="4dp" />
 
     <!-- Ticket Number -->
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:text="Ref #: 20251204-123456"
         android:textSize="14sp"
-        android:textColor="@color/another_yellow"
+        android:textColor="@color/midnight_blue"
         android:layout_marginBottom="12dp" />
 
     <!-- Price -->
@@ -68,7 +68,7 @@
         android:text="₱20.00"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/another_yellow"
+        android:textColor="@color/midnight_blue"
         android:textAlignment="textEnd" />
 
 </LinearLayout>
