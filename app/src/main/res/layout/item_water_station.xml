@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="7dp">
 
         <!-- Station Name and Status -->
         <LinearLayout
@@ -103,7 +103,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="💧 Pure: "
+                android:text="Pure: "
                 android:textSize="11sp"
                 android:textColor="#666666" />
 
@@ -111,15 +111,22 @@
                 android:id="@+id/tvPurePrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="₱0.00"
+                android:text="₱0.00  "
                 android:textSize="11sp"
                 android:textStyle="bold"
                 android:textColor="@color/somewhat_blue" />
 
+            <!-- Vertical Divider -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_yellow"
+                android:layout_gravity="center_vertical" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  🌊 Spring: "
+                android:text="Spring: "
                 android:textSize="11sp"
                 android:textColor="#666666"
                 android:layout_marginStart="8dp" />
@@ -128,15 +135,22 @@
                 android:id="@+id/tvSpringPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="₱0.00"
+                android:text="₱0.00  "
                 android:textSize="11sp"
                 android:textStyle="bold"
                 android:textColor="@color/somewhat_blue" />
 
+            <!-- Vertical Divider -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_yellow"
+                android:layout_gravity="center_vertical" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  ⛰️ Mineral: "
+                android:text="Mineral: "
                 android:textSize="11sp"
                 android:textColor="#666666"
                 android:layout_marginStart="8dp" />
@@ -154,15 +168,15 @@
         <!-- Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100px"
             android:orientation="horizontal"
             android:layout_marginTop="12dp"
             android:gravity="end">
 
             <Button
                 android:id="@+id/btnViewOnMap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="200px"
+                android:layout_height="90px"
                 android:text="View on Map"
                 android:textSize="10sp"
                 android:background="@drawable/button_background2"
@@ -172,8 +186,8 @@
 
             <Button
                 android:id="@+id/btnOrderNow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="200px"
+                android:layout_height="90px"
                 android:text="Order Now"
                 android:textSize="10sp"
                 android:background="@drawable/button_background"

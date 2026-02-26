@@ -91,7 +91,7 @@
                 android:id="@+id/tvTransactionFee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Transaction Fee: ₱20.00"
+                android:text="Transaction Fee: ₱10.00"
                 android:textSize="16sp"
                 android:textColor="#666"
                 android:layout_marginBottom="8dp" />
@@ -117,7 +117,7 @@
 
         </LinearLayout>
 
-        <!-- Continue Button -->
+        <!-- Back to Home Button -->
         <Button
             android:id="@+id/btnContinue"
             android:layout_width="match_parent"
@@ -125,7 +125,19 @@
             android:text="Back To Home"
             android:textSize="18sp"
             android:background="@drawable/button_background"
-            android:textColor="@color/another_yellow" />
+            android:textColor="@color/another_yellow"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Cancel Order Button — only visible when status is Pending -->
+        <Button
+            android:id="@+id/btnCancelOrder"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Cancel Order"
+            android:textSize="18sp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/white"
+            android:visibility="gone" />
 
         <!-- Note -->
         <TextView

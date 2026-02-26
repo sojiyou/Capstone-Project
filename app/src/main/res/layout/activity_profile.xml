@@ -200,7 +200,7 @@
             android:id="@+id/btnSeeList"
             android:layout_width="150dp"
             android:layout_height="30dp"
-            android:text="See List"
+            android:text="See Orders"
             android:textSize="16sp"
             android:textColor="@android:color/white"
             android:background="@drawable/button_background"

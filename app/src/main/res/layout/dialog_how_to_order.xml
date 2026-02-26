@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="20dp"
+    android:layout_margin="10dp"
     android:background="@drawable/order_ticket_background">
 
     <!-- Header -->
@@ -47,7 +48,7 @@
                 android:text="Select a Water Station"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue" />
+                android:textColor="@color/another_yellow" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,7 +90,7 @@
                 android:text="Click 'Order Now'"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue" />
+                android:textColor="@color/another_yellow" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -131,7 +132,7 @@
                 android:text="Choose Water Type and Quantity"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue" />
+                android:textColor="@color/another_yellow" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -173,7 +174,7 @@
                 android:text="Select Pickup or Delivery"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue" />
+                android:textColor="@color/another_yellow" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -215,7 +216,7 @@
                 android:text="Confirm and Track Order"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/somewhat_blue" />
+                android:textColor="@color/another_yellow" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -235,8 +236,8 @@
         android:text="Got It!"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:background="@drawable/button_background"
-        android:textColor="@color/white"
+        android:background="@drawable/button_background2"
+        android:textColor="@color/somewhat_blue"
         android:padding="12dp" />
 
 </LinearLayout>

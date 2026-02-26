@@ -215,8 +215,8 @@
 
                     <Button
                         android:id="@+id/btnDecreaseGallonPure"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:text="-"
                         android:textSize="18sp"
                         android:background="@drawable/button_background"/>
@@ -235,8 +235,8 @@
 
                     <Button
                         android:id="@+id/btnIncreaseGallonPure"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:text="+"
                         android:textSize="18sp"
                         android:background="@drawable/button_background"/>
@@ -281,8 +281,8 @@
 
                     <Button
                         android:id="@+id/btnDecreaseLiterSpring"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:text="-"
                         android:textSize="18sp"
                         android:background="@drawable/button_background"/>
@@ -301,8 +301,8 @@
 
                     <Button
                         android:id="@+id/btnIncreaseLiterSpring"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:text="+"
                         android:textSize="18sp"
                         android:background="@drawable/button_background"/>
@@ -347,8 +347,8 @@
 
                     <Button
                         android:id="@+id/btnDecreaseGallonMineral"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:text="-"
                         android:textSize="18sp"
                         android:background="@drawable/button_background"/>
@@ -367,8 +367,8 @@
 
                     <Button
                         android:id="@+id/btnIncreaseGallonMineral"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:text="+"
                         android:textSize="18sp"
                         android:background="@drawable/button_background"/>
@@ -434,10 +434,10 @@
                     android:id="@+id/getLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:background="@drawable/button_background"
+                    android:background="@drawable/small_button_background"
                     android:text="Get Location"
                     android:textColor="@color/another_yellow"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     android:paddingHorizontal="12dp"
                     android:layout_marginEnd="8dp"/>
 
@@ -492,6 +492,28 @@
                 android:textSize="12sp"
                 android:textColor="@color/black"
                 android:visibility="gone"/>
+
+            <!-- Contact Number Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact Number:"
+                android:textColor="@color/somewhat_blue"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etContactNumber"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Enter contact number (e.g. 09XXXXXXXXX)"
+                android:inputType="phone"
+                android:maxLength="11"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/gray_input_field_bg"
+                android:layout_marginBottom="12dp" />
 
             <!-- Additional Details Section -->
             <TextView

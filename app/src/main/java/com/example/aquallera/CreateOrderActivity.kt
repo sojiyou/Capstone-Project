@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,6 +34,7 @@ class CreateOrderActivity : AppCompatActivity() {
     private lateinit var tvCoordinatesDisplay: TextView
     private lateinit var etManualAddress: EditText
     private lateinit var etAdditionalDetails: EditText
+    private lateinit var etContactNumber: EditText  // NEW
     private lateinit var btnProceed: Button
 
     // Water quantity inputs
@@ -71,12 +74,18 @@ class CreateOrderActivity : AppCompatActivity() {
     // Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    // Firebase Auth
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_order)
 
         // Initialize location client
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
 
         // Get station data from intent
         currentStation = intent.getSerializableExtra("WATER_STATION") as? WaterStation
@@ -88,7 +97,10 @@ class CreateOrderActivity : AppCompatActivity() {
         loadStationPrices()
         updateWaterStationName()
         setupBottomNavigation()
-        updateLocationFieldsVisibility() // Initialize visibility state
+        updateLocationFieldsVisibility()
+
+        // Pre-fill contact number from user's profile
+        prefillContactNumber()
     }
 
     private fun initializeViews() {
@@ -105,6 +117,7 @@ class CreateOrderActivity : AppCompatActivity() {
         tvCoordinatesDisplay = findViewById(R.id.tvCoordinatesDisplay)
         etManualAddress = findViewById(R.id.etManualAddress)
         etAdditionalDetails = findViewById(R.id.additionalDetailsInput)
+        etContactNumber = findViewById(R.id.etContactNumber)  // NEW
         btnProceed = findViewById(R.id.proceedButton)
 
         // Water quantity inputs
@@ -127,20 +140,41 @@ class CreateOrderActivity : AppCompatActivity() {
         btnDecreaseGallonMineral = findViewById(R.id.btnDecreaseGallonMineral)
     }
 
+    // Pre-fill contact number from Firebase user profile
+    private fun prefillContactNumber() {
+        val userId = auth.currentUser?.uid ?: return
+        val database = FirebaseDatabase.getInstance("https://aquallera-default-rtdb.asia-southeast1.firebasedatabase.app")
+        database.reference.child("users").child(userId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val number = when {
+                        snapshot.hasChild("number") -> snapshot.child("number").getValue(String::class.java)
+                        snapshot.hasChild("phone") -> snapshot.child("phone").getValue(String::class.java)
+                        snapshot.hasChild("phoneNumber") -> snapshot.child("phoneNumber").getValue(String::class.java)
+                        snapshot.hasChild("contactNumber") -> snapshot.child("contactNumber").getValue(String::class.java)
+                        else -> null
+                    }
+                    if (!number.isNullOrEmpty()) {
+                        etContactNumber.setText(number)
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("CreateOrder", "Failed to fetch user number: ${error.message}")
+                }
+            })
+    }
+
     private fun loadStationPrices() {
         currentStation?.let { station ->
-            // Get prices from station (use 0.0 if null)
             pureWaterPrice = station.pricing_gallon_pure ?: 0.0
             springWaterPrice = station.pricing_liter_spring ?: 0.0
             mineralWaterPrice = station.pricing_gallon_mineral ?: 0.0
             deliveryFee = station.pricing_delivery_fee ?: 0.0
 
-            // Update price displays
             tvPureWaterPrice.text = "Price: ₱${String.format("%.2f", pureWaterPrice)}/gallon"
             tvSpringWaterPrice.text = "Price: ₱${String.format("%.2f", springWaterPrice)}/liter"
             tvMineralWaterPrice.text = "Price: ₱${String.format("%.2f", mineralWaterPrice)}/gallon"
 
-            // Update delivery fee display
             updateDeliveryFeeVisibility()
         }
     }
@@ -152,19 +186,16 @@ class CreateOrderActivity : AppCompatActivity() {
     }
 
     private fun setupDateAndTime() {
-        // Set current date as default
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
         selectedDate = dateFormat.format(calendar.time)
         tvSelectedDate.text = selectedDate
 
-        // Set current time + 1 minute as default to avoid past time
         calendar.add(Calendar.MINUTE, 1)
         val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
         selectedTime = timeFormat.format(calendar.time)
         tvSelectedTime.text = selectedTime
 
-        // Date picker dialog when date text is clicked
         tvSelectedDate.setOnClickListener {
             showDatePickerDialog()
         }
@@ -196,11 +227,9 @@ class CreateOrderActivity : AppCompatActivity() {
                 selectedDate = dateFormat.format(selectedCalendar.time)
                 tvSelectedDate.text = selectedDate
 
-                // If selected date is today, validate the current time
                 if (selectedCalendar.timeInMillis == todayCalendar.timeInMillis) {
                     validateSelectedTimeAgainstCurrentTime()
                 } else {
-                    // If future date, set to a reasonable default time (e.g., 9:00 AM)
                     val defaultTime = Calendar.getInstance()
                     defaultTime.set(Calendar.HOUR_OF_DAY, 9)
                     defaultTime.set(Calendar.MINUTE, 0)
@@ -214,35 +243,29 @@ class CreateOrderActivity : AppCompatActivity() {
             day
         )
 
-        // Set minimum date to today
         datePickerDialog.datePicker.minDate = calendar.timeInMillis
-
         datePickerDialog.show()
     }
 
-    // Helper function to validate time when date changes
     private fun validateSelectedTimeAgainstCurrentTime() {
         val currentTime = Calendar.getInstance()
         val selectedTimeCalendar = Calendar.getInstance()
 
-        // Parse selected time
         val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
         try {
             selectedTimeCalendar.time = timeFormat.parse(selectedTime) ?: return
 
-            // Set the date to today
             val today = Calendar.getInstance()
             selectedTimeCalendar.set(Calendar.YEAR, today.get(Calendar.YEAR))
             selectedTimeCalendar.set(Calendar.MONTH, today.get(Calendar.MONTH))
             selectedTimeCalendar.set(Calendar.DAY_OF_MONTH, today.get(Calendar.DAY_OF_MONTH))
 
-            // If selected time is in the past, update to current time + 1 minute
             if (selectedTimeCalendar.timeInMillis <= currentTime.timeInMillis) {
                 val suggestionHour = currentTime.get(Calendar.HOUR_OF_DAY)
                 var suggestionMinute = currentTime.get(Calendar.MINUTE) + 1
 
                 if (suggestionMinute >= 60) {
-                    suggestionMinute = 59 // Cap at 59 if we hit hour boundary
+                    suggestionMinute = 59
                 }
 
                 val amPm = if (suggestionHour < 12) "AM" else "PM"
@@ -250,42 +273,33 @@ class CreateOrderActivity : AppCompatActivity() {
                 selectedTime = String.format("%02d:%02d %s", displayHour, suggestionMinute, amPm)
                 tvSelectedTime.text = selectedTime
 
-                Toast.makeText(
-                    this,
-                    "Time updated to current time + 1 minute",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Time updated to current time + 1 minute", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    // UPDATED showTimePicker with validation
     fun showTimePicker(view: android.view.View) {
         val calendar = Calendar.getInstance()
         val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
         val currentMinute = calendar.get(Calendar.MINUTE)
 
-        // Parse selected date
         val selectedDateCalendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
         try {
             selectedDateCalendar.time = dateFormat.parse(selectedDate) ?: Calendar.getInstance().time
         } catch (e: Exception) {
-            // If parsing fails, use current date
             selectedDateCalendar.time = Calendar.getInstance().time
         }
 
         val timePickerDialog = TimePickerDialog(
             this,
             TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
-                // Check if selected date is today
                 val today = Calendar.getInstance()
                 val isToday = selectedDateCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
                         selectedDateCalendar.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)
 
-                // If it's today, validate that time is not in the past
                 if (isToday) {
                     if (selectedHour < currentHour ||
                         (selectedHour == currentHour && selectedMinute <= currentMinute)) {
@@ -296,12 +310,10 @@ class CreateOrderActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
 
-                        // Set to current time + 1 minute as suggestion
                         val suggestionHour = currentHour
                         val suggestionMinute = currentMinute + 1
 
                         if (suggestionMinute >= 60) {
-                            // Handle minute overflow
                             val newHour = suggestionHour + 1
                             val newMinute = suggestionMinute - 60
                             if (newHour < 24) {
@@ -309,30 +321,19 @@ class CreateOrderActivity : AppCompatActivity() {
                                 val displayHour = if (newHour > 12) newHour - 12 else if (newHour == 0) 12 else newHour
                                 selectedTime = String.format("%02d:%02d %s", displayHour, newMinute, amPm)
                                 tvSelectedTime.text = selectedTime
-
-                                Toast.makeText(
-                                    this,
-                                    "Time set to ${String.format("%02d:%02d", displayHour, newMinute)} $amPm",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Toast.makeText(this, "Time set to ${String.format("%02d:%02d", displayHour, newMinute)} $amPm", Toast.LENGTH_SHORT).show()
                             }
                         } else {
                             val amPm = if (suggestionHour < 12) "AM" else "PM"
                             val displayHour = if (suggestionHour > 12) suggestionHour - 12 else if (suggestionHour == 0) 12 else suggestionHour
                             selectedTime = String.format("%02d:%02d %s", displayHour, suggestionMinute, amPm)
                             tvSelectedTime.text = selectedTime
-
-                            Toast.makeText(
-                                this,
-                                "Time set to ${String.format("%02d:%02d", displayHour, suggestionMinute)} $amPm",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this, "Time set to ${String.format("%02d:%02d", displayHour, suggestionMinute)} $amPm", Toast.LENGTH_SHORT).show()
                         }
                         return@OnTimeSetListener
                     }
                 }
 
-                // If validation passes, set the selected time
                 val amPm = if (selectedHour < 12) "AM" else "PM"
                 val displayHour = if (selectedHour > 12) selectedHour - 12 else if (selectedHour == 0) 12 else selectedHour
                 selectedTime = String.format("%02d:%02d %s", displayHour, selectedMinute, amPm)
@@ -347,18 +348,15 @@ class CreateOrderActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        // Order type change listener
-        rgOrderType.setOnCheckedChangeListener { _, checkedId ->
+        rgOrderType.setOnCheckedChangeListener { _, _ ->
             updateDeliveryFeeVisibility()
             updateLocationFieldsVisibility()
         }
 
-        // Get location button
         btnGetLocation.setOnClickListener {
             getCurrentLocation()
         }
 
-        // Proceed button
         btnProceed.setOnClickListener {
             if (validateOrder()) {
                 navigateToOrderConfirmation()
@@ -367,10 +365,7 @@ class CreateOrderActivity : AppCompatActivity() {
     }
 
     private fun updateLocationFieldsVisibility() {
-        // Show/hide location-related fields based on order type
         val isDelivery = rbDelivery.isChecked
-
-        // These fields are only relevant for delivery
         val visibility = if (isDelivery) android.view.View.VISIBLE else android.view.View.GONE
 
         btnGetLocation.visibility = visibility
@@ -380,7 +375,6 @@ class CreateOrderActivity : AppCompatActivity() {
         tvLocation.visibility = if (isDelivery && tvLocation.text != "Location not selected") visibility else android.view.View.GONE
         tvCoordinatesDisplay.visibility = if (isDelivery && tvCoordinatesDisplay.text != "Coordinates will appear here") visibility else android.view.View.GONE
 
-        // If pickup is selected, clear location data
         if (!isDelivery) {
             userLatitude = 0.0
             userLongitude = 0.0
@@ -390,46 +384,33 @@ class CreateOrderActivity : AppCompatActivity() {
     }
 
     private fun setupQuantityControls() {
-        // Setup + and - buttons for Pure Water
         btnIncreaseGallonPure.setOnClickListener {
             val current = etGallonPure.text.toString().toIntOrNull() ?: 0
             etGallonPure.setText((current + 1).toString())
         }
-
         btnDecreaseGallonPure.setOnClickListener {
             val current = etGallonPure.text.toString().toIntOrNull() ?: 0
-            if (current > 0) {
-                etGallonPure.setText((current - 1).toString())
-            }
+            if (current > 0) etGallonPure.setText((current - 1).toString())
         }
 
-        // Setup + and - buttons for Spring Water
         btnIncreaseLiterSpring.setOnClickListener {
             val current = etLiterSpring.text.toString().toIntOrNull() ?: 0
             etLiterSpring.setText((current + 1).toString())
         }
-
         btnDecreaseLiterSpring.setOnClickListener {
             val current = etLiterSpring.text.toString().toIntOrNull() ?: 0
-            if (current > 0) {
-                etLiterSpring.setText((current - 1).toString())
-            }
+            if (current > 0) etLiterSpring.setText((current - 1).toString())
         }
 
-        // Setup + and - buttons for Mineral Water
         btnIncreaseGallonMineral.setOnClickListener {
             val current = etGallonMineral.text.toString().toIntOrNull() ?: 0
             etGallonMineral.setText((current + 1).toString())
         }
-
         btnDecreaseGallonMineral.setOnClickListener {
             val current = etGallonMineral.text.toString().toIntOrNull() ?: 0
-            if (current > 0) {
-                etGallonMineral.setText((current - 1).toString())
-            }
+            if (current > 0) etGallonMineral.setText((current - 1).toString())
         }
 
-        // Setup text watchers to prevent negative numbers
         setupTextWatcher(etGallonPure)
         setupTextWatcher(etLiterSpring)
         setupTextWatcher(etGallonMineral)
@@ -438,9 +419,7 @@ class CreateOrderActivity : AppCompatActivity() {
     private fun setupTextWatcher(editText: EditText) {
         editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
             override fun afterTextChanged(s: Editable?) {
                 s?.toString()?.let { text ->
                     if (text.isNotEmpty()) {
@@ -476,10 +455,8 @@ class CreateOrderActivity : AppCompatActivity() {
                         userLatitude = it.latitude
                         userLongitude = it.longitude
 
-                        // Format coordinates
                         val coordinates = "Lat: ${String.format("%.6f", userLatitude)}, Lng: ${String.format("%.6f", userLongitude)}"
 
-                        // Update both displays
                         userAddress = coordinates
                         tvLocation.text = coordinates
                         tvLocation.visibility = android.view.View.VISIBLE
@@ -489,7 +466,6 @@ class CreateOrderActivity : AppCompatActivity() {
 
                         Toast.makeText(this, "Location detected successfully!", Toast.LENGTH_SHORT).show()
 
-                        // Check if within delivery range if delivery is selected
                         if (rbDelivery.isChecked) {
                             checkDeliveryRange()
                         }
@@ -532,7 +508,6 @@ class CreateOrderActivity : AppCompatActivity() {
 
         val waterSubtotal = pureWaterTotal + springWaterTotal + mineralWaterTotal
 
-        // Add delivery fee if delivery is selected
         val totalDeliveryFee = if (rbDelivery.isChecked) deliveryFee else 0.0
         val grandTotal = waterSubtotal + totalDeliveryFee
 
@@ -556,7 +531,6 @@ class CreateOrderActivity : AppCompatActivity() {
     }
 
     private fun validateOrder(): Boolean {
-        // Check if any water is selected
         val pureWaterQty = etGallonPure.text.toString().toIntOrNull() ?: 0
         val springWaterQty = etLiterSpring.text.toString().toIntOrNull() ?: 0
         val mineralWaterQty = etGallonMineral.text.toString().toIntOrNull() ?: 0
@@ -566,17 +540,24 @@ class CreateOrderActivity : AppCompatActivity() {
             return false
         }
 
-        // Validate date and time - prevent past orders
         if (!validateOrderDateTime()) {
             return false
         }
 
-        // Validate delivery-specific fields
+        // Validate contact number
+        val contactNumber = etContactNumber.text.toString().trim()
+        if (contactNumber.isEmpty()) {
+            Toast.makeText(this, "Please enter a contact number.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (contactNumber.length != 11) {
+            Toast.makeText(this, "Please enter a valid 11-digit contact number.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
         if (rbDelivery.isChecked) {
-            // Get manual address
             manualAddress = etManualAddress.text.toString().trim()
 
-            // Check if either GPS location OR manual address is provided
             val hasGpsLocation = userLatitude != 0.0 && userLongitude != 0.0
             val hasManualAddress = manualAddress.isNotEmpty()
 
@@ -587,7 +568,6 @@ class CreateOrderActivity : AppCompatActivity() {
                 return false
             }
 
-            // Check delivery range if GPS location is available
             if (hasGpsLocation) {
                 currentStation?.let { station ->
                     if (!station.isWithinDeliveryRange(userLatitude, userLongitude)) {
@@ -604,11 +584,9 @@ class CreateOrderActivity : AppCompatActivity() {
         return true
     }
 
-    // New function to validate order date and time
     private fun validateOrderDateTime(): Boolean {
         val now = Calendar.getInstance()
 
-        // Parse selected date
         val selectedDateCalendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
 
@@ -619,14 +597,12 @@ class CreateOrderActivity : AppCompatActivity() {
             return false
         }
 
-        // Parse selected time
         val selectedDateTimeCalendar = Calendar.getInstance()
         val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
 
         try {
             selectedDateTimeCalendar.time = timeFormat.parse(selectedTime) ?: return false
 
-            // Combine date and time
             selectedDateTimeCalendar.set(
                 selectedDateCalendar.get(Calendar.YEAR),
                 selectedDateCalendar.get(Calendar.MONTH),
@@ -639,7 +615,6 @@ class CreateOrderActivity : AppCompatActivity() {
             return false
         }
 
-        // Check if selected date/time is in the past
         if (selectedDateTimeCalendar.timeInMillis <= now.timeInMillis) {
             Toast.makeText(
                 this,
@@ -667,8 +642,8 @@ class CreateOrderActivity : AppCompatActivity() {
         intent.putExtra("MANUAL_ADDRESS", manualAddress)
         intent.putExtra("ADDITIONAL_DETAILS", etAdditionalDetails.text.toString())
         intent.putExtra("ORDER_TOTAL", orderTotal)
+        intent.putExtra("CONTACT_NUMBER", etContactNumber.text.toString().trim())  // NEW
 
-        // Pass water quantities
         intent.putExtra("PURE_WATER_QTY", orderTotal.pureWaterQty)
         intent.putExtra("SPRING_WATER_QTY", orderTotal.springWaterQty)
         intent.putExtra("MINERAL_WATER_QTY", orderTotal.mineralWaterQty)
@@ -681,19 +656,16 @@ class CreateOrderActivity : AppCompatActivity() {
         val navOrders = findViewById<LinearLayout>(R.id.navOrder)
         val navProfile = findViewById<LinearLayout>(R.id.navProfile)
 
-        // Set Map as active
         setActiveTab(navMap)
         navMap.setOnClickListener {
             val intent = Intent(this, MapActivity::class.java)
             startActivity(intent)
         }
-
         navOrders.setOnClickListener {
             val intent = Intent(this, OrdersActivity::class.java)
             startActivity(intent)
             finish()
         }
-
         navProfile.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)

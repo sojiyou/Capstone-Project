@@ -55,6 +55,7 @@ class OrderConfirmationActivity : AppCompatActivity() {
     private var userLongitude: Double = 0.0
     private var additionalDetails: String = ""
     private var referenceNumber: String = ""
+    private var customerPhone: String = ""  // Received directly from CreateOrderActivity
 
     // Firebase
     private lateinit var auth: FirebaseAuth
@@ -69,8 +70,6 @@ class OrderConfirmationActivity : AppCompatActivity() {
             database = FirebaseDatabase.getInstance(
                 "https://aquallera-default-rtdb.asia-southeast1.firebasedatabase.app"
             )
-
-            auth.currentUser?.uid?.let { debugUserData(it) }
 
             getIntentData()
             initializeViews()
@@ -93,6 +92,7 @@ class OrderConfirmationActivity : AppCompatActivity() {
             userLatitude = intent.getDoubleExtra("USER_LATITUDE", 0.0)
             userLongitude = intent.getDoubleExtra("USER_LONGITUDE", 0.0)
             additionalDetails = intent.getStringExtra("ADDITIONAL_DETAILS") ?: ""
+            customerPhone = intent.getStringExtra("CONTACT_NUMBER") ?: ""  // NEW - from intent
         } catch (e: Exception) {
             Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
         }
@@ -177,7 +177,7 @@ class OrderConfirmationActivity : AppCompatActivity() {
                     transactionFee
             tvGrandTotal.text = "₱${String.format("%.2f", grandTotal)}"
 
-            // Reference number placeholder until Firebase returns
+            // Reference number placeholder until Firebase transaction returns
             tvReferenceNumber.text = "Generating..."
 
             if (additionalDetails.isNotEmpty()) {
@@ -244,21 +244,6 @@ class OrderConfirmationActivity : AppCompatActivity() {
         })
     }
 
-    private fun getCustomerPhoneFromDatabase(userId: String, callback: (String) -> Unit) {
-        val userRef = database.reference.child("users").child(userId)
-        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val phone = snapshot.child("phone").getValue(String::class.java) ?: ""
-                callback(phone)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("OrderConfirmation", "Failed to fetch phone: ${error.message}")
-                callback("")
-            }
-        })
-    }
-
     private fun createOrderObject(customerId: String, orderId: String, customerPhone: String): Order {
         val currentUser = auth.currentUser
         val customerName = currentUser?.displayName ?: "Customer"
@@ -313,26 +298,25 @@ class OrderConfirmationActivity : AppCompatActivity() {
         btnConfirmOrder.isEnabled = false
         btnConfirmOrder.text = "Processing..."
 
-        getCustomerPhoneFromDatabase(currentUser.uid) { customerPhone ->
-            try {
-                val orderId = database.reference.child("orders").push().key
-                    ?: System.currentTimeMillis().toString()
+        try {
+            val orderId = database.reference.child("orders").push().key
+                ?: System.currentTimeMillis().toString()
 
-                val order = createOrderObject(currentUser.uid, orderId, customerPhone)
+            // Use customerPhone directly from intent — no async DB fetch needed
+            val order = createOrderObject(currentUser.uid, orderId, customerPhone)
 
-                database.reference.child("orders").child(orderId)
-                    .setValue(order)
-                    .addOnSuccessListener { navigateToOrderSuccess(order) }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Failed to save order: ${e.message}", Toast.LENGTH_SHORT).show()
-                        btnConfirmOrder.isEnabled = true
-                        btnConfirmOrder.text = "Confirm Order"
-                    }
-            } catch (e: Exception) {
-                Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
-                btnConfirmOrder.isEnabled = true
-                btnConfirmOrder.text = "Confirm Order"
-            }
+            database.reference.child("orders").child(orderId)
+                .setValue(order)
+                .addOnSuccessListener { navigateToOrderSuccess(order) }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Failed to save order: ${e.message}", Toast.LENGTH_SHORT).show()
+                    btnConfirmOrder.isEnabled = true
+                    btnConfirmOrder.text = "Confirm Order"
+                }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+            btnConfirmOrder.isEnabled = true
+            btnConfirmOrder.text = "Confirm Order"
         }
     }
 
@@ -367,24 +351,5 @@ class OrderConfirmationActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Toast.makeText(this, "Navigation error: ${e.message}", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun debugUserData(userId: String) {
-        val userRef = database.reference.child("users").child(userId)
-        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d("UserDebug", "User snapshot exists: ${snapshot.exists()}")
-                if (snapshot.exists()) {
-                    Log.d("UserDebug", "User data: ${snapshot.value}")
-                    for (child in snapshot.children) {
-                        Log.d("UserDebug", "Field: ${child.key} = ${child.value}")
-                    }
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("UserDebug", "Error: ${error.message}")
-            }
-        })
     }
 }

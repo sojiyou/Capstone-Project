@@ -51,13 +51,14 @@
 
         <Button
             android:id="@+id/btnHowToOrder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200px"
+            android:layout_height="70px"
             android:text="How to Order"
-            android:textSize="10sp"
-            android:background="@drawable/button_background"
+            android:textSize="8sp"
+            android:background="@drawable/small_button_background"
             android:textColor="@color/white"
-            android:padding="8dp"
+            android:padding="2dp"
+            android:layout_marginRight="50px"
             tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
