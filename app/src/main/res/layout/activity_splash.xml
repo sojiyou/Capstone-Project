@@ -13,16 +13,6 @@
         android:src="@drawable/aqua_llera_logo"
         android:contentDescription="@string/appLogoDesc" />
 
-    <!-- App Name -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="@color/somewhat_blue"
-        android:layout_marginTop="20dp" />
-
     <!-- Tagline -->
     <TextView
         android:layout_width="wrap_content"

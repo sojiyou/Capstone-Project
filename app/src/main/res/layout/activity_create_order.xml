@@ -386,8 +386,7 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="gone"/>
 
-
-            <!-- Location Details Section -->
+            <!-- Location Details Section - UPDATED -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -404,41 +403,101 @@
                 android:background="@color/somewhat_blue"
                 android:layout_marginBottom="12dp"/>
 
+            <!-- Auto Location Section - Made smaller -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location:"
+                android:text="Auto-detect Location:"
                 android:textSize="14sp"
                 android:textColor="@color/somewhat_blue"
                 android:layout_marginBottom="8dp"/>
 
-            <Button
-                android:id="@+id/getLocation"
+            <!-- Optional: Toggle between coordinates and manual address -->
+            <TextView
+                android:id="@+id/cbUseCoordinatesForDelivery"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/button_background"
-                android:text="Get your Location"
-                android:textColor="@color/another_yellow"
-                android:textSize="14sp"
+                android:layout_height="wrap_content"
+                android:text="Use GPS coordinates for delivery range check (recommended)"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:checked="true"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- Location Display -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/getLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/button_background"
+                    android:text="Get Location"
+                    android:textColor="@color/another_yellow"
+                    android:textSize="12sp"
+                    android:paddingHorizontal="12dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/gray_input_field_bg"
+                    android:padding="10dp"
+                    android:text="Location not selected"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:ellipsize="end"/>
+            </LinearLayout>
+
+            <!-- NEW: Manual Address Input Field -->
             <TextView
-                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter Full Address Manually:"
+                android:textSize="14sp"
+                android:textColor="@color/somewhat_blue"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etManualAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gray_input_field_bg"
+                android:hint="House number, street, barangay, city, province"
+                android:inputType="textMultiLine"
+                android:minHeight="48dp"
+                android:maxHeight="80dp"
+                android:padding="12dp"
+                android:textSize="14sp"
+                android:gravity="start|top"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Location Display for coordinates - kept for backward compatibility -->
+            <TextView
+                android:id="@+id/tvCoordinatesDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/gray_input_field_bg"
                 android:padding="12dp"
-                android:text="Location not selected"
-                android:textSize="14sp"
+                android:text="Coordinates will appear here"
+                android:textSize="12sp"
                 android:textColor="@color/black"
                 android:visibility="gone"/>
 
+            <!-- Additional Details Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Additional Details:"
+                android:text="Additional Delivery Instructions:"
                 android:textSize="14sp"
                 android:textColor="@color/somewhat_blue"
                 android:layout_marginBottom="8dp"/>
@@ -449,11 +508,11 @@
                 android:layout_height="100dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/gray_input_field_bg"
-                android:hint="e.g. street next to the waiting shed, 3rd left turn, then straight down."
+                android:hint="add any possible landmark for faster access"
                 android:inputType="textMultiLine"
                 android:padding="12dp"
                 android:textSize="14sp"
-                android:gravity="start"/>
+                android:gravity="start|top"/>
 
             <!-- Preview Button -->
             <Button

@@ -16,7 +16,8 @@ data class WaterStation(
     @PropertyName("email") val email: String = "",
     @PropertyName("phone") val phone: String = "",
     @PropertyName("address") val address: String = "",
-    @PropertyName("city") val city: String = "",
+    @PropertyName("city"
+    ) val city: String = "",
     @PropertyName("state") val state: String = "",
     @PropertyName("zipCode") val zipCode: String = "",
 

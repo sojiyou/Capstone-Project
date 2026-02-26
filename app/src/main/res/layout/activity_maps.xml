@@ -10,10 +10,10 @@
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="68dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="10dp"
+        android:padding="5dp"
         android:background="@color/app_bg"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/aqua_llera_logo"
+            android:src="@drawable/aqua_llera_logo_no_name"
             android:contentDescription="@string/appLogoDesc"/>
 
         <LinearLayout
@@ -88,8 +88,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/order_ticket_background"
-            android:padding="10dp"
-            android:layout_marginBottom="15dp">
+            android:padding="8dp"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="5dp" />
 
             <!-- MapBox MapView - FIXED HEIGHT, independent touch -->
             <com.mapbox.maps.MapView
@@ -149,7 +149,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:background="@color/white"
-            android:padding="15dp">
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
