@@ -183,7 +183,7 @@
                 android:text="Save Profile"
                 android:textSize="16sp"
                 android:textColor="@color/mist_gray"
-                android:background="@drawable/button_background2"
+                android:background="@drawable/midnight_blue_background"
                 android:layout_marginBottom="15dp" />
 
             <!-- Cancel Button -->
@@ -194,7 +194,7 @@
                 android:text="Cancel"
                 android:textSize="16sp"
                 android:textColor="@color/mist_gray"
-                android:background="@drawable/button_background2"
+                android:background="@drawable/midnight_blue_background"
                 android:layout_marginBottom="15dp" />
 
         </LinearLayout>

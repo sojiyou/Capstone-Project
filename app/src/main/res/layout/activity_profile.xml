@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/button_background2"
+        android:background="@drawable/midnight_blue_background"
         android:padding="20dp"
         android:layout_margin="10dp"
         android:layout_marginBottom="30dp"
@@ -156,7 +156,7 @@
                 android:text="Edit Profile"
                 android:textSize="16sp"
                 android:textColor="@color/midnight_blue"
-                android:background="@drawable/button_background"
+                android:background="@drawable/mist_gray_background"
                 android:layout_marginBottom="15dp" />
 
             <!-- Log Out Button -->
@@ -167,7 +167,7 @@
                 android:text="Log Out"
                 android:textSize="16sp"
                 android:textColor="@color/midnight_blue"
-                android:background="@drawable/button_background"
+                android:background="@drawable/mist_gray_background"
                 android:layout_marginBottom="15dp" />
 
         </LinearLayout>
@@ -188,7 +188,7 @@
             android:text="Maps"
             android:textSize="16sp"
             android:textColor="@android:color/white"
-            android:background="@drawable/button_background2"
+            android:background="@drawable/midnight_blue_background"
             android:layout_marginBottom="15dp" />
 
         <View
@@ -203,7 +203,7 @@
             android:text="See Orders"
             android:textSize="16sp"
             android:textColor="@android:color/white"
-            android:background="@drawable/button_background2"
+            android:background="@drawable/midnight_blue_background"
             android:layout_marginBottom="20dp" />
 
     </LinearLayout>

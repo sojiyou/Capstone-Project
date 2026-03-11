@@ -10,6 +10,7 @@
     <!-- main colors -->
     <color name="mist_gray">#ECEFF1</color>
     <color name="midnight_blue">#191970</color>
+    <color name="midnight_blue_active">#1212C7</color>
     <!-- footer colors -->
     <color name="footer_bg">#2F3C51</color>
 
@@ -20,6 +21,5 @@
     <color name="input_bg">#D9D9D9</color>
 
     <color name="order_list_bg">#F4E8BB</color>
-
 
 </resources>

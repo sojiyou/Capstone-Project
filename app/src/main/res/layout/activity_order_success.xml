@@ -124,7 +124,7 @@
             android:layout_height="56dp"
             android:text="Back To Home"
             android:textSize="18sp"
-            android:background="@drawable/button_background2"
+            android:background="@drawable/midnight_blue_background"
             android:textColor="@color/mist_gray"
             android:layout_marginBottom="12dp" />
 
@@ -135,8 +135,8 @@
             android:layout_height="56dp"
             android:text="Cancel Order"
             android:textSize="18sp"
-            android:background="@drawable/button_background"
-            android:textColor="@color/white"
+            android:background="@drawable/midnight_blue_background"
+            android:textColor="@color/mist_gray"
             android:visibility="gone" />
 
         <!-- Note -->

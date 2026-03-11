@@ -150,7 +150,7 @@
                         android:id="@+id/SignUpBtn"
                         android:layout_width="120dp"
                         android:layout_height="48dp"
-                        android:background="@drawable/button_background2"
+                        android:background="@drawable/midnight_blue_background"
                         android:text="@string/SignupBtn"
                         android:textColor="@color/mist_gray"
                         android:textSize="15sp" />

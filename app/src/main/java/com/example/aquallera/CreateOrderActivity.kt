@@ -77,6 +77,9 @@ class CreateOrderActivity : AppCompatActivity() {
     // Firebase Auth
     private lateinit var auth: FirebaseAuth
 
+    // Order Limiter
+    private val MAX_WATER_QUANTITY = 50
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_order)
@@ -386,7 +389,8 @@ class CreateOrderActivity : AppCompatActivity() {
     private fun setupQuantityControls() {
         btnIncreaseGallonPure.setOnClickListener {
             val current = etGallonPure.text.toString().toIntOrNull() ?: 0
-            etGallonPure.setText((current + 1).toString())
+            if (current < MAX_WATER_QUANTITY) etGallonPure.setText((current + 1).toString())
+            else Toast.makeText(this, "Maximum of $MAX_WATER_QUANTITY gallons allowed", Toast.LENGTH_SHORT).show()
         }
         btnDecreaseGallonPure.setOnClickListener {
             val current = etGallonPure.text.toString().toIntOrNull() ?: 0
@@ -395,7 +399,8 @@ class CreateOrderActivity : AppCompatActivity() {
 
         btnIncreaseLiterSpring.setOnClickListener {
             val current = etLiterSpring.text.toString().toIntOrNull() ?: 0
-            etLiterSpring.setText((current + 1).toString())
+            if (current < MAX_WATER_QUANTITY) etLiterSpring.setText((current + 1).toString())
+            else Toast.makeText(this, "Maximum of $MAX_WATER_QUANTITY liters allowed", Toast.LENGTH_SHORT).show()
         }
         btnDecreaseLiterSpring.setOnClickListener {
             val current = etLiterSpring.text.toString().toIntOrNull() ?: 0
@@ -404,7 +409,8 @@ class CreateOrderActivity : AppCompatActivity() {
 
         btnIncreaseGallonMineral.setOnClickListener {
             val current = etGallonMineral.text.toString().toIntOrNull() ?: 0
-            etGallonMineral.setText((current + 1).toString())
+            if (current < MAX_WATER_QUANTITY) etGallonMineral.setText((current + 1).toString())
+            else Toast.makeText(this, "Maximum of $MAX_WATER_QUANTITY gallons allowed", Toast.LENGTH_SHORT).show()
         }
         btnDecreaseGallonMineral.setOnClickListener {
             val current = etGallonMineral.text.toString().toIntOrNull() ?: 0
@@ -424,8 +430,20 @@ class CreateOrderActivity : AppCompatActivity() {
                 s?.toString()?.let { text ->
                     if (text.isNotEmpty()) {
                         val value = text.toIntOrNull()
-                        if (value == null || value < 0) {
-                            editText.setText("0")
+                        when {
+                            value == null || value < 0 -> {
+                                editText.setText("0")
+                                editText.setSelection(1)
+                            }
+                            value > MAX_WATER_QUANTITY -> {
+                                editText.setText(MAX_WATER_QUANTITY.toString())
+                                editText.setSelection(MAX_WATER_QUANTITY.toString().length)
+                                Toast.makeText(
+                                    editText.context,
+                                    "Maximum quantity is $MAX_WATER_QUANTITY",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 }

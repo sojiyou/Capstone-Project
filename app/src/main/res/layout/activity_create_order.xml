@@ -220,7 +220,7 @@
                         android:text="-"
                         android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background2"/>
+                        android:background="@drawable/midnight_blue_background"/>
 
                     <EditText
                         android:id="@+id/etGallonPure"
@@ -241,7 +241,7 @@
                         android:text="+"
                         android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background2"/>
+                        android:background="@drawable/midnight_blue_background"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -288,7 +288,7 @@
                         android:text="-"
                         android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background2"/>
+                        android:background="@drawable/midnight_blue_background"/>
 
                     <EditText
                         android:id="@+id/etLiterSpring"
@@ -309,7 +309,7 @@
                         android:text="+"
                         android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background2"/>
+                        android:background="@drawable/midnight_blue_background"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -356,7 +356,7 @@
                         android:text="-"
                         android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background2"/>
+                        android:background="@drawable/midnight_blue_background"/>
 
                     <EditText
                         android:id="@+id/etGallonMineral"
@@ -377,7 +377,7 @@
                         android:text="+"
                         android:textColor="@color/mist_gray"
                         android:textSize="18sp"
-                        android:background="@drawable/button_background2"/>
+                        android:background="@drawable/midnight_blue_background"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -440,7 +440,7 @@
                     android:id="@+id/getLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:background="@drawable/button_background2"
+                    android:background="@drawable/midnight_blue_background"
                     android:text="Get Location"
                     android:textColor="@color/mist_gray"
                     android:textSize="10sp"
@@ -547,7 +547,7 @@
                 android:id="@+id/proceedButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@drawable/button_background2"
+                android:background="@drawable/midnight_blue_background"
                 android:text="Preview Order and Calculate Total"
                 android:textColor="@color/mist_gray"
                 android:textSize="16sp"

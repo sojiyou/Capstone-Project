@@ -121,6 +121,7 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/midnight_blue"
+                android:layout_margin="1px"
                 android:layout_gravity="center_vertical" />
 
             <TextView
@@ -144,6 +145,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
+                android:layout_margin="1px"
                 android:background="@color/midnight_blue"
                 android:layout_gravity="center_vertical" />
 
@@ -179,7 +181,7 @@
                 android:layout_height="90px"
                 android:text="View on Map"
                 android:textSize="10sp"
-                android:background="@drawable/button_background2"
+                android:background="@drawable/midnight_blue_background"
                 android:textColor="@color/mist_gray"
                 android:padding="5dp"
                 android:layout_marginEnd="8dp" />
@@ -190,7 +192,7 @@
                 android:layout_height="90px"
                 android:text="Order Now"
                 android:textSize="10sp"
-                android:background="@drawable/button_background2"
+                android:background="@drawable/midnight_blue_background"
                 android:textColor="@color/white"
                 android:padding="5dp" />
         </LinearLayout>

@@ -35,7 +35,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/loginBtn"
-                android:background="@drawable/button_background2"
+                android:background="@drawable/midnight_blue_background"
                 android:textColor="@color/mist_gray"
                 android:textSize="20sp"
                 android:layout_marginBottom="10dp"/>
@@ -56,7 +56,7 @@
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:text="@string/SignupBtn"
-                android:background="@drawable/button_background2"
+                android:background="@drawable/midnight_blue_background"
                 android:textColor="@color/mist_gray"
                 android:textSize="20sp"
                 android:layout_marginBottom="50dp"/>

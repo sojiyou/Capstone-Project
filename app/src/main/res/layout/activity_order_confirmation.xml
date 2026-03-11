@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp"
-            android:background="@drawable/button_background"
+            android:background="@drawable/mist_gray_background"
             android:layout_marginBottom="16dp">
 
             <TextView
@@ -172,7 +172,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp"
-            android:background="@drawable/button_background"
+            android:background="@drawable/mist_gray_background"
             android:layout_marginBottom="16dp">
 
             <TextView
@@ -343,7 +343,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:text="Edit Order"
-                android:background="@drawable/button_background2"
+                android:background="@drawable/midnight_blue_background"
                 android:textColor="@color/mist_gray"
                 android:padding="12dp"
                 />
@@ -355,7 +355,7 @@
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:text="Confirm Order"
-                android:background="@drawable/button_background2"
+                android:background="@drawable/midnight_blue_background"
                 android:textColor="@color/mist_gray"
                 android:padding="12dp" />
 

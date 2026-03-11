@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:layout_margin="10dp"
-    android:background="@drawable/button_background2">
+    android:background="@drawable/midnight_blue_background">
 
     <!-- Header -->
     <TextView
@@ -236,7 +236,7 @@
         android:text="Got It!"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:background="@drawable/button_background"
+        android:background="@drawable/mist_gray_background"
         android:textColor="@color/midnight_blue"
         android:padding="12dp" />
 
