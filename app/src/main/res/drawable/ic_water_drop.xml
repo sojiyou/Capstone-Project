@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Drop shadow (subtle, slightly offset dark ellipse) -->
+    <path
+        android:fillColor="#33000000"
+        android:pathData="M24,46 C18,46 14,43.5 14,44.5 C14,45.3 18.5,47 24,47 C29.5,47 34,45.3 34,44.5 C34,43.5 30,46 24,46Z" />
+
+    <!-- Main water drop body - midnight blue #191970 -->
+    <path
+        android:fillColor="#191970"
+        android:pathData="
+            M24,4
+            C24,4 10,18 10,28
+            C10,35.7 16.3,42 24,42
+            C31.7,42 38,35.7 38,28
+            C38,18 24,4 24,4Z" />
+
+    <!-- Inner highlight circle (Converted from Circle cx=20, cy=22, r=5) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,17 A5,5 0 1,1 20,27 A5,5 0 1,1 20,17 Z" />
+
+    <!-- Smaller inner shine dot (Converted from Circle cx=21.5, cy=20.5, r=2) -->
+    <path
+        android:fillColor="#CCDDFF"
+        android:pathData="M21.5,18.5 A2,2 0 1,1 21.5,22.5 A2,2 0 1,1 21.5,18.5 Z" />
+
+</vector>
