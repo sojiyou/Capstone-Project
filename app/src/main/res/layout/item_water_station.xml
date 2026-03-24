@@ -114,6 +114,7 @@
                 android:text="₱0.00  "
                 android:textSize="11sp"
                 android:textStyle="bold"
+                android:layout_marginRight="3px"
                 android:textColor="@color/midnight_blue" />
 
             <!-- Vertical Divider -->
@@ -121,7 +122,6 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/midnight_blue"
-                android:layout_margin="1px"
                 android:layout_gravity="center_vertical" />
 
             <TextView
@@ -139,13 +139,13 @@
                 android:text="₱0.00  "
                 android:textSize="11sp"
                 android:textStyle="bold"
+                android:layout_marginRight="3px"
                 android:textColor="@color/midnight_blue" />
 
             <!-- Vertical Divider -->
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_margin="1px"
                 android:background="@color/midnight_blue"
                 android:layout_gravity="center_vertical" />
 
@@ -164,6 +164,7 @@
                 android:text="₱0.00"
                 android:textSize="11sp"
                 android:textStyle="bold"
+                android:layout_marginRight="3px"
                 android:textColor="@color/midnight_blue" />
         </LinearLayout>
 

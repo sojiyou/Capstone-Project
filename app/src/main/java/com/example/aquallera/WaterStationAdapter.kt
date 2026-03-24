@@ -58,7 +58,7 @@ class WaterStationAdapter(
             holder.btnOrderNow.alpha = 1.0f
         } else {
             // Station is not approved (closed)
-            holder.tvStationStatus.text = "● Closed"
+            holder.tvStationStatus.text = "● Pending Approval"
             holder.tvStationStatus.setTextColor(context.getColor(android.R.color.holo_red_dark))
             holder.btnOrderNow.isEnabled = false
             holder.btnOrderNow.alpha = 0.5f
