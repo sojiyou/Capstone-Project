@@ -135,9 +135,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:background="@drawable/midnight_blue_background"
+                    android:background="@drawable/mist_gray_background"
                     android:text="View Details"
-                    android:textColor="@color/mist_gray"
+                    android:textColor="@color/midnight_blue"
                     android:textSize="12sp"
                     android:padding="8dp" />
             </LinearLayout>
