@@ -51,6 +51,7 @@ class OrderConfirmationActivity : AppCompatActivity() {
     private var orderTime: String = ""
     private var orderType: String = ""
     private var userAddress: String = ""
+    private var manualAddress: String = ""  // NEW: Store manual address separately
     private var userLatitude: Double = 0.0
     private var userLongitude: Double = 0.0
     private var additionalDetails: String = ""
@@ -89,6 +90,7 @@ class OrderConfirmationActivity : AppCompatActivity() {
             orderTime = intent.getStringExtra("ORDER_TIME") ?: ""
             orderType = intent.getStringExtra("ORDER_TYPE") ?: ""
             userAddress = intent.getStringExtra("USER_ADDRESS") ?: ""
+            manualAddress = intent.getStringExtra("MANUAL_ADDRESS") ?: ""  // NEW: Get manual address
             userLatitude = intent.getDoubleExtra("USER_LATITUDE", 0.0)
             userLongitude = intent.getDoubleExtra("USER_LONGITUDE", 0.0)
             additionalDetails = intent.getStringExtra("ADDITIONAL_DETAILS") ?: ""
@@ -152,8 +154,17 @@ class OrderConfirmationActivity : AppCompatActivity() {
             tvOrderTime.text = "Time: $orderTime"
             tvOrderType.text = "Type: $orderType"
 
-            if (orderType == "Delivery" && userAddress.isNotEmpty()) {
-                tvDeliveryAddress.text = "Address: $userAddress"
+            // MODIFIED: Show manual address if available, otherwise use coordinates but hide coordinates
+            if (orderType == "Delivery") {
+                val displayAddress = if (manualAddress.isNotEmpty()) {
+                    manualAddress  // Show the manually entered address
+                } else if (userAddress.isNotEmpty() && !userAddress.contains("Lat:")) {
+                    userAddress  // Show address if it's not just coordinates
+                } else {
+                    "Address will be provided during delivery"  // Default message when only coordinates exist
+                }
+
+                tvDeliveryAddress.text = "Address: $displayAddress"
                 tvDeliveryAddress.visibility = android.view.View.VISIBLE
             } else {
                 tvDeliveryAddress.visibility = android.view.View.GONE
@@ -252,6 +263,13 @@ class OrderConfirmationActivity : AppCompatActivity() {
                 (if (orderType == "Delivery") orderTotal.deliveryFee else 0.0) +
                 transactionFee
 
+        // MODIFIED: Use manual address if available for display, otherwise use coordinates for backend
+        val displayAddress = if (manualAddress.isNotEmpty()) {
+            manualAddress
+        } else {
+            userAddress
+        }
+
         return Order(
             orderId = orderId,
             stationId = currentStation?.id ?: "",
@@ -275,8 +293,8 @@ class OrderConfirmationActivity : AppCompatActivity() {
             deliveryFee = if (orderType == "Delivery") orderTotal.deliveryFee else 0.0,
             transactionFee = transactionFee,
             grandTotal = grandTotal,
-            locationDetails = userAddress,
-            deliveryAddress = if (orderType == "Delivery") userAddress else "",
+            locationDetails = displayAddress,  // Store the user-friendly address
+            deliveryAddress = if (orderType == "Delivery") displayAddress else "",
             deliveryLatitude = if (orderType == "Delivery") userLatitude else 0.0,
             deliveryLongitude = if (orderType == "Delivery") userLongitude else 0.0,
             additionalDetails = additionalDetails,

@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Water Station Name Here"
             android:textSize="18sp"
-            android:textColor="@color/mist_gray"
+            android:textColor="@color/midnight_blue"
             android:textStyle="bold"/>
     </LinearLayout>
 
@@ -392,7 +392,7 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="gone"/>
 
-            <!-- Location Details Section - UPDATED -->
+            <!-- Location Details Section - MODIFIED: Coordinates hidden -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -409,7 +409,7 @@
                 android:background="@color/mist_gray"
                 android:layout_marginBottom="12dp"/>
 
-            <!-- Auto Location Section - Made smaller -->
+            <!-- Auto Location Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -423,7 +423,7 @@
                 android:id="@+id/cbUseCoordinatesForDelivery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Use GPS coordinates for delivery range check (recommended)"
+                android:text="Use GPS location for delivery range check (recommended)"
                 android:textSize="12sp"
                 android:textColor="@color/black"
                 android:checked="true"
@@ -443,27 +443,15 @@
                     android:background="@drawable/midnight_blue_background"
                     android:text="Get Location"
                     android:textColor="@color/mist_gray"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:paddingHorizontal="12dp"
                     android:layout_marginEnd="8dp"/>
 
-                <TextView
-                    android:id="@+id/tvLocation"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/gray_input_field_bg"
-                    android:padding="10dp"
-                    android:text="Location not selected"
-                    android:textSize="12sp"
-                    android:textColor="@color/black"
-                    android:visibility="gone"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:ellipsize="end"/>
+                <!-- tvLocation has been removed - coordinates no longer displayed to user -->
+
             </LinearLayout>
 
-            <!-- NEW: Manual Address Input Field -->
+            <!-- Manual Address Input Field -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -484,20 +472,9 @@
                 android:padding="12dp"
                 android:textSize="14sp"
                 android:gravity="start|top"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="16dp"/>
 
-            <!-- Location Display for coordinates - kept for backward compatibility -->
-            <TextView
-                android:id="@+id/tvCoordinatesDisplay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/gray_input_field_bg"
-                android:padding="12dp"
-                android:text="Coordinates will appear here"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:visibility="gone"/>
+            <!-- tvCoordinatesDisplay has been removed - coordinates no longer displayed to user -->
 
             <!-- Contact Number Section -->
             <TextView
@@ -521,7 +498,7 @@
                 android:background="@drawable/gray_input_field_bg"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Additional Details Section -->
+            <!-- Additional Delivery Instructions Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -536,7 +513,7 @@
                 android:layout_height="100dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/gray_input_field_bg"
-                android:hint="add any possible landmark for faster access"
+                android:hint="Add any possible landmark for faster access"
                 android:inputType="textMultiLine"
                 android:padding="12dp"
                 android:textSize="14sp"

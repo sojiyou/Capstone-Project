@@ -30,11 +30,9 @@ class CreateOrderActivity : AppCompatActivity() {
     private lateinit var rbDelivery: RadioButton
     private lateinit var rbPickup: RadioButton
     private lateinit var btnGetLocation: Button
-    private lateinit var tvLocation: TextView
-    private lateinit var tvCoordinatesDisplay: TextView
     private lateinit var etManualAddress: EditText
     private lateinit var etAdditionalDetails: EditText
-    private lateinit var etContactNumber: EditText  // NEW
+    private lateinit var etContactNumber: EditText
     private lateinit var btnProceed: Button
 
     // Water quantity inputs
@@ -64,6 +62,7 @@ class CreateOrderActivity : AppCompatActivity() {
     private var userLongitude: Double = 0.0
     private var userAddress: String = ""
     private var manualAddress: String = ""
+    private var isLocationDetected: Boolean = false  // NEW: Track if GPS location was detected
 
     // Prices from station
     private var pureWaterPrice: Double = 0.0
@@ -116,11 +115,9 @@ class CreateOrderActivity : AppCompatActivity() {
         rbDelivery = findViewById(R.id.rbDelivery)
         rbPickup = findViewById(R.id.rbPickup)
         btnGetLocation = findViewById(R.id.getLocation)
-        tvLocation = findViewById(R.id.tvLocation)
-        tvCoordinatesDisplay = findViewById(R.id.tvCoordinatesDisplay)
         etManualAddress = findViewById(R.id.etManualAddress)
         etAdditionalDetails = findViewById(R.id.additionalDetailsInput)
-        etContactNumber = findViewById(R.id.etContactNumber)  // NEW
+        etContactNumber = findViewById(R.id.etContactNumber)
         btnProceed = findViewById(R.id.proceedButton)
 
         // Water quantity inputs
@@ -375,14 +372,12 @@ class CreateOrderActivity : AppCompatActivity() {
         etManualAddress.visibility = visibility
         findViewById<TextView>(R.id.cbUseCoordinatesForDelivery).visibility = visibility
 
-        tvLocation.visibility = if (isDelivery && tvLocation.text != "Location not selected") visibility else android.view.View.GONE
-        tvCoordinatesDisplay.visibility = if (isDelivery && tvCoordinatesDisplay.text != "Coordinates will appear here") visibility else android.view.View.GONE
-
         if (!isDelivery) {
             userLatitude = 0.0
             userLongitude = 0.0
             userAddress = ""
             manualAddress = ""
+            isLocationDetected = false
         }
     }
 
@@ -472,30 +467,29 @@ class CreateOrderActivity : AppCompatActivity() {
                     location?.let {
                         userLatitude = it.latitude
                         userLongitude = it.longitude
+                        isLocationDetected = true  // Mark that location was successfully detected
 
-                        val coordinates = "Lat: ${String.format("%.6f", userLatitude)}, Lng: ${String.format("%.6f", userLongitude)}"
+                        // Store coordinates in userAddress for validation
+                        userAddress = "Lat: ${String.format("%.6f", userLatitude)}, Lng: ${String.format("%.6f", userLongitude)}"
 
-                        userAddress = coordinates
-                        tvLocation.text = coordinates
-                        tvLocation.visibility = android.view.View.VISIBLE
-
-                        tvCoordinatesDisplay.text = coordinates
-                        tvCoordinatesDisplay.visibility = android.view.View.VISIBLE
-
-                        Toast.makeText(this, "Location detected successfully!", Toast.LENGTH_SHORT).show()
+                        // Simple success message
+                        Toast.makeText(this, "✅ Location detected successfully!", Toast.LENGTH_SHORT).show()
 
                         if (rbDelivery.isChecked) {
                             checkDeliveryRange()
                         }
                     } ?: run {
-                        Toast.makeText(this, "Unable to get location. Please enable GPS and try again.", Toast.LENGTH_LONG).show()
+                        isLocationDetected = false
+                        Toast.makeText(this, "Unable to get location. Please enable GPS and try again, or enter address manually.", Toast.LENGTH_LONG).show()
                     }
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Failed to get location: ${it.message}", Toast.LENGTH_SHORT).show()
+                    isLocationDetected = false
+                    Toast.makeText(this, "Failed to get location: ${it.message}. Please enter address manually.", Toast.LENGTH_SHORT).show()
                 }
         } catch (e: SecurityException) {
-            Toast.makeText(this, "Location permission required. Please enable in settings.", Toast.LENGTH_LONG).show()
+            isLocationDetected = false
+            Toast.makeText(this, "Location permission required. Please enable in settings or enter address manually.", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -576,16 +570,39 @@ class CreateOrderActivity : AppCompatActivity() {
         if (rbDelivery.isChecked) {
             manualAddress = etManualAddress.text.toString().trim()
 
-            val hasGpsLocation = userLatitude != 0.0 && userLongitude != 0.0
+            val hasGpsLocation = isLocationDetected && userLatitude != 0.0 && userLongitude != 0.0
             val hasManualAddress = manualAddress.isNotEmpty()
 
+            // STRICT VALIDATION: Must have either GPS location OR manual address
             if (!hasGpsLocation && !hasManualAddress) {
                 Toast.makeText(this,
-                    "Please either:\n• Get your GPS location, OR\n• Enter your complete address manually",
+                    "❌ Delivery address is required!\n\nPlease either:\n• Tap 'Get Location' to use your GPS location, OR\n• Enter your complete address manually in the field above",
                     Toast.LENGTH_LONG).show()
                 return false
             }
 
+            // If only GPS is used (no manual address), show error and require manual address
+            if (hasGpsLocation && !hasManualAddress) {
+                Toast.makeText(this,
+                    "❌ Please enter your complete address manually.\n\nGPS coordinates alone are not sufficient for delivery. Please provide your full address (House number, street, barangay, city, province).",
+                    Toast.LENGTH_LONG).show()
+                // Focus on the manual address field
+                etManualAddress.requestFocus()
+                return false
+            }
+
+            // If only manual address is entered, that's acceptable
+            if (!hasGpsLocation && hasManualAddress) {
+                // This is fine - proceed
+                Log.d("CreateOrder", "Using manual address only")
+            }
+
+            // If both are available, use manual address (already set)
+            if (hasGpsLocation && hasManualAddress) {
+                Log.d("CreateOrder", "Both GPS and manual address available, using manual address")
+            }
+
+            // Check delivery range if GPS is available
             if (hasGpsLocation) {
                 currentStation?.let { station ->
                     if (!station.isWithinDeliveryRange(userLatitude, userLongitude)) {
@@ -660,7 +677,7 @@ class CreateOrderActivity : AppCompatActivity() {
         intent.putExtra("MANUAL_ADDRESS", manualAddress)
         intent.putExtra("ADDITIONAL_DETAILS", etAdditionalDetails.text.toString())
         intent.putExtra("ORDER_TOTAL", orderTotal)
-        intent.putExtra("CONTACT_NUMBER", etContactNumber.text.toString().trim())  // NEW
+        intent.putExtra("CONTACT_NUMBER", etContactNumber.text.toString().trim())
 
         intent.putExtra("PURE_WATER_QTY", orderTotal.pureWaterQty)
         intent.putExtra("SPRING_WATER_QTY", orderTotal.springWaterQty)

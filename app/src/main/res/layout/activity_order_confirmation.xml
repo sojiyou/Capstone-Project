@@ -104,6 +104,7 @@
                 android:textColor="@color/midnight_blue"
                 android:layout_marginBottom="8dp" />
 
+            <!-- MODIFIED: Address TextView - shows friendly address or placeholder -->
             <TextView
                 android:id="@+id/tvDeliveryAddress"
                 android:layout_width="wrap_content"
