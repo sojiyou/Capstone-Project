@@ -2,7 +2,6 @@ package com.example.aquallera
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -23,12 +22,14 @@ class StoreDetailsActivity : AppCompatActivity() {
     private lateinit var btnReturn: Button
     private lateinit var pricesCard: CardView
 
-    // NEW: Delivery hours views
     private lateinit var deliveryHoursSection: LinearLayout
     private lateinit var tvDeliveryHoursLabel: TextView
     private lateinit var deliveryTimesContainer: LinearLayout
 
     private var currentStation: WaterStation? = null
+
+    // Keys that should always appear first, in this order
+    private val HOURS_KEY_ORDER = listOf("open", "opening", "start", "close", "closing", "end")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,17 +38,11 @@ class StoreDetailsActivity : AppCompatActivity() {
         initializeViews()
         setupClickListeners()
 
-        // Get the water station data from intent
         val station = intent.getSerializableExtra("WATER_STATION") as? WaterStation
-        station?.let {
-            currentStation = it
-
-            // ✅ DEBUG LOGS
-            Log.d("ORDER_DEBUG", "StoreDetails Station ID: ${it.id}")
-            Log.d("ORDER_DEBUG", "StoreDetails Station Name: ${it.stationName}")
-
-            displayStationDetails(it)
-        } ?: run {
+        if (station != null) {
+            currentStation = station
+            displayStationDetails(station)
+        } else {
             Toast.makeText(this, "Error loading station details", Toast.LENGTH_SHORT).show()
             finish()
         }
@@ -64,17 +59,14 @@ class StoreDetailsActivity : AppCompatActivity() {
         btnReturn = findViewById(R.id.btnReturn)
         pricesCard = findViewById(R.id.pricesCard)
 
-        // NEW: Initialize delivery hours views
         deliveryHoursSection = findViewById(R.id.deliveryHoursSection)
         tvDeliveryHoursLabel = findViewById(R.id.tvDeliveryHoursLabel)
         deliveryTimesContainer = findViewById(R.id.deliveryTimesContainer)
     }
 
     private fun displayStationDetails(station: WaterStation) {
-        // Set basic information
         tvStoreName.text = station.stationName
 
-        // Build address safely
         val addressParts = listOfNotNull(
             station.address.takeIf { it.isNotEmpty() },
             station.city.takeIf { it.isNotEmpty() },
@@ -85,46 +77,41 @@ class StoreDetailsActivity : AppCompatActivity() {
 
         tvPhone.text = station.phone
 
-        // Set business hours
+        // Sort entries so "open" always comes before "close", regardless of
+        // how Firebase returns them (HashMap has no guaranteed order).
         val hoursText = if (station.businessHours.isNotEmpty()) {
-            station.businessHours.entries.joinToString("\n") { (day, time) ->
-                "$day: $time"
-            }
+            station.businessHours.entries
+                .sortedWith(compareBy { entry ->
+                    val keyLower = entry.key.lowercase()
+                    val index = HOURS_KEY_ORDER.indexOfFirst { keyLower.contains(it) }
+                    if (index >= 0) index else Int.MAX_VALUE
+                })
+                .joinToString("\n") { (day, time) -> "$day: $time" }
         } else {
             "Opens 7AM - 7PM"
         }
         tvHours.text = hoursText
 
-        // NEW: Display delivery hours
         displayDeliveryHours(station)
 
-        // Set services
         val radius = station.getDeliveryRadiusInt()
-        val servicesText = if (radius > 0) {
+        tvServices.text = if (radius > 0) {
             "Accepts Delivery (${radius}km radius) and Pick up"
         } else {
             "Accepts Pick up only"
         }
-        tvServices.text = servicesText
 
-        // Display prices
         displayPrices(station)
     }
 
-    // NEW: Function to display delivery hours
     private fun displayDeliveryHours(station: WaterStation) {
-        // Check if station has delivery service and delivery hours
         val hasDelivery = station.serviceTypes.contains("delivery")
         val deliveryHours = station.deliveryHours
 
-        if (hasDelivery && deliveryHours != null && deliveryHours.isNotEmpty()) {
-            // Show the delivery hours section
+        if (hasDelivery && !deliveryHours.isNullOrEmpty()) {
             deliveryHoursSection.visibility = View.VISIBLE
-
-            // Clear any existing views in the container
             deliveryTimesContainer.removeAllViews()
 
-            // Add each delivery time as a TextView
             deliveryHours.forEach { time ->
                 val timeTextView = TextView(this).apply {
                     text = formatTime(time)
@@ -134,23 +121,17 @@ class StoreDetailsActivity : AppCompatActivity() {
                 }
                 deliveryTimesContainer.addView(timeTextView)
             }
-
-            Log.d("DELIVERY_HOURS", "Displaying ${deliveryHours.size} delivery times")
         } else {
-            // Hide the delivery hours section if no delivery service or no hours set
             deliveryHoursSection.visibility = View.GONE
-            Log.d("DELIVERY_HOURS", "No delivery hours to display")
         }
     }
 
-    // NEW: Helper function to format time (convert 24hr to 12hr format)
     private fun formatTime(time: String): String {
         return try {
             val parts = time.split(":")
             if (parts.size == 2) {
                 val hour = parts[0].toInt()
                 val minute = parts[1]
-
                 when {
                     hour == 0 -> "12:$minute AM"
                     hour < 12 -> "$hour:$minute AM"
@@ -158,55 +139,36 @@ class StoreDetailsActivity : AppCompatActivity() {
                     else -> "${hour - 12}:$minute PM"
                 }
             } else {
-                time // Return original if format is unexpected
+                time
             }
         } catch (e: Exception) {
-            Log.e("DELIVERY_HOURS", "Error formatting time: $time", e)
-            time // Return original on error
+            time
         }
     }
 
     private fun displayPrices(station: WaterStation) {
         val priceList = mutableListOf<String>()
 
-        // Add each price if it exists
-        station.pricing_gallon_pure?.let { price ->
-            priceList.add("Pure Water: ₱${String.format("%.2f", price)}/gallon")
-        }
+        station.pricing_gallon_pure?.let { priceList.add("Pure Water: ₱${String.format("%.2f", it)}/gallon") }
+        station.pricing_liter_spring?.let { priceList.add("Spring Water: ₱${String.format("%.2f", it)}/liter") }
+        station.pricing_gallon_mineral?.let { priceList.add("Mineral Water: ₱${String.format("%.2f", it)}/gallon") }
+        station.pricing_delivery_fee?.let { priceList.add("Delivery Fee: ₱${String.format("%.2f", it)}") }
 
-        station.pricing_liter_spring?.let { price ->
-            priceList.add("Spring Water: ₱${String.format("%.2f", price)}/liter")
-        }
-
-        station.pricing_gallon_mineral?.let { price ->
-            priceList.add("Mineral Water: ₱${String.format("%.2f", price)}/gallon")
-        }
-
-        station.pricing_delivery_fee?.let { fee ->
-            priceList.add("Delivery Fee: ₱${String.format("%.2f", fee)}")
-        }
-
-        // Check if there are any prices to display
         if (priceList.isNotEmpty()) {
-            // Show prices card
             pricesCard.visibility = View.VISIBLE
             tvPrices.text = priceList.joinToString("\n")
         } else {
-            // Hide prices card if no prices are set
             pricesCard.visibility = View.GONE
         }
     }
 
     private fun setupClickListeners() {
         btnOrder.setOnClickListener {
-            currentStation?.let { station ->
-                navigateToCreateOrder(station)
-            }
+            currentStation?.let { navigateToCreateOrder(it) }
         }
 
         btnReturn.setOnClickListener {
-            val intent = Intent(this, MapActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MapActivity::class.java))
             finish()
         }
     }
@@ -214,9 +176,8 @@ class StoreDetailsActivity : AppCompatActivity() {
     private fun navigateToCreateOrder(station: WaterStation) {
         try {
             val intent = Intent(this, CreateOrderActivity::class.java)
-            intent.putExtra("WATER_STATION", station)
+                .putExtra("WATER_STATION", station)
             startActivity(intent)
-            // Don't finish here so user can return to details
         } catch (e: Exception) {
             Toast.makeText(this, "Cannot open order page", Toast.LENGTH_SHORT).show()
         }
