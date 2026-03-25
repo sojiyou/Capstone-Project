@@ -1,0 +1,43 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Clock face (filled circle) -->
+    <path
+        android:fillColor="#1A237E"
+        android:pathData="
+            M12,2
+            C6.477,2 2,6.477 2,12
+            C2,17.523 6.477,22 12,22
+            C17.523,22 22,17.523 22,12
+            C22,6.477 17.523,2 12,2
+            Z" />
+
+    <!-- Clock face inner (white cutout to give it a ring feel) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="
+            M12,4.5
+            m-7,7.5
+            a7,7 0,1 1,14 0
+            a7,7 0,1 1,-14 0
+            Z" />
+
+    <!-- Hour hand pointing to ~10 -->
+    <path
+        android:fillColor="#1A237E"
+        android:pathData="
+            M12,12
+            L12,7
+            C12,6.72 11.78,6.5 11.5,6.5
+            C11.22,6.5 11,6.72 11,7
+            L11,12.5
+            C11,12.64 11.06,12.77 11.15,12.86
+            L13.65,15.36
+            C13.84,15.55 14.16,15.55 14.35,15.36
+            C14.55,15.16 14.55,14.84 14.35,14.65
+            Z" />
+
+</vector>
