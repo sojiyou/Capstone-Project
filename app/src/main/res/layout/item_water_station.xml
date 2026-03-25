@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="● Open"
-                android:textSize="11sp"
+                android:textSize="9sp"
                 android:textColor="#4CAF50"
                 android:padding="4dp"
                 android:background="@drawable/status_badge_background" />
@@ -114,15 +114,8 @@
                 android:text="₱0.00  "
                 android:textSize="11sp"
                 android:textStyle="bold"
-                android:layout_marginRight="3px"
+                android:layout_marginEnd="3dp"
                 android:textColor="@color/midnight_blue" />
-
-            <!-- Vertical Divider -->
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/midnight_blue"
-                android:layout_gravity="center_vertical" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -139,15 +132,8 @@
                 android:text="₱0.00  "
                 android:textSize="11sp"
                 android:textStyle="bold"
-                android:layout_marginRight="3px"
+                android:layout_marginEnd="3dp"
                 android:textColor="@color/midnight_blue" />
-
-            <!-- Vertical Divider -->
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/midnight_blue"
-                android:layout_gravity="center_vertical" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -164,22 +150,22 @@
                 android:text="₱0.00"
                 android:textSize="11sp"
                 android:textStyle="bold"
-                android:layout_marginRight="3px"
+                android:layout_marginEnd="3dp"
                 android:textColor="@color/midnight_blue" />
         </LinearLayout>
 
         <!-- Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100px"
+            android:layout_height="35dp"
             android:orientation="horizontal"
             android:layout_marginTop="12dp"
             android:gravity="end">
 
             <Button
                 android:id="@+id/btnViewOnMap"
-                android:layout_width="200px"
-                android:layout_height="90px"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
                 android:text="View on Map"
                 android:textSize="10sp"
                 android:background="@drawable/midnight_blue_background"
@@ -189,8 +175,8 @@
 
             <Button
                 android:id="@+id/btnOrderNow"
-                android:layout_width="200px"
-                android:layout_height="90px"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
                 android:text="Order Now"
                 android:textSize="10sp"
                 android:background="@drawable/midnight_blue_background"
