@@ -129,12 +129,7 @@ class OrderConfirmationActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         btnConfirmOrder.setOnClickListener {
-            // Generate reference number before saving order
-            generateReferenceNumber { ref ->
-                referenceNumber = ref
-                tvReferenceNumber.text = "Reference #: $referenceNumber"
-                saveOrderToFirebase()
-            }
+            saveOrderToFirebase()  // generateReferenceNumber is now called inside saveOrderToFirebase
         }
 
         btnEditOrder.setOnClickListener {
@@ -227,7 +222,15 @@ class OrderConfirmationActivity : AppCompatActivity() {
     }
 
     private fun generateReferenceNumber(callback: (String) -> Unit) {
-        val counterRef = database.reference.child("orderCounter").child("current")
+        val dateStr = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
+        val counterRef = database.reference.child("orderCounter").child(dateStr)
+
+        // Get station name prefix (first 3 letters, uppercase, letters only)
+        val stationPrefix = currentStation?.stationName
+            ?.filter { it.isLetter() }
+            ?.take(3)
+            ?.uppercase()
+            ?: "WTR"
 
         counterRef.runTransaction(object : Transaction.Handler {
             override fun doTransaction(currentData: MutableData): Transaction.Result {
@@ -244,12 +247,12 @@ class OrderConfirmationActivity : AppCompatActivity() {
             ) {
                 if (error != null) {
                     Log.e("OrderConfirmation", "Failed to generate reference: ${error.message}")
-                    callback("000")
+                    callback("$stationPrefix-${dateStr}-0000")
                 } else {
                     val count = currentData?.getValue(Int::class.java) ?: 0
-                    val date = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date())
-                    val counterString = count.toString().padStart(3, '0')
-                    callback("$date-$counterString")
+                    val counterString = count.toString().padStart(4, '0')
+                    val orderId = "$stationPrefix-$dateStr-$counterString"
+                    callback(orderId)
                 }
             }
         })
@@ -317,20 +320,22 @@ class OrderConfirmationActivity : AppCompatActivity() {
         btnConfirmOrder.text = "Processing..."
 
         try {
-            val orderId = database.reference.child("orders").push().key
-                ?: System.currentTimeMillis().toString()
+            // Generate orderId using the new format (e.g., AQU-20260427-0042)
+            generateReferenceNumber { orderId ->
+                referenceNumber = orderId
 
-            // Use customerPhone directly from intent — no async DB fetch needed
-            val order = createOrderObject(currentUser.uid, orderId, customerPhone)
+                // Use the generated orderId as the Firebase key
+                val order = createOrderObject(currentUser.uid, orderId, customerPhone)
 
-            database.reference.child("orders").child(orderId)
-                .setValue(order)
-                .addOnSuccessListener { navigateToOrderSuccess(order) }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Failed to save order: ${e.message}", Toast.LENGTH_SHORT).show()
-                    btnConfirmOrder.isEnabled = true
-                    btnConfirmOrder.text = "Confirm Order"
-                }
+                database.reference.child("orders").child(orderId)
+                    .setValue(order)
+                    .addOnSuccessListener { navigateToOrderSuccess(order) }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed to save order: ${e.message}", Toast.LENGTH_SHORT).show()
+                        btnConfirmOrder.isEnabled = true
+                        btnConfirmOrder.text = "Confirm Order"
+                    }
+            }
         } catch (e: Exception) {
             Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
             btnConfirmOrder.isEnabled = true
